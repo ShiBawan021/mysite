@@ -1,0 +1,40 @@
+body{
+	background-color: #f7f7f8!important;;
+}
+div.user-info-container{
+	background-color: white;
+	border-radius: 5px;
+	padding: 2em;
+}
+div.change-nickname-input{
+	display: flex;
+	justify-content: center
+}
+div.change-nickname-input div.change-nickname-btn{
+	margin-left: 1em;
+}
+div.well{
+	margin-top: 1em;
+}
+span.title{
+	font-size: 1.3em;
+	font-weight: bold;
+	margin-right: 5em;
+}
+button.change-nickname-btn{
+	width: 6em;
+}
+li.change-nickname-container, li.change-email-container, li.change-password-container{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+li{
+	margin-bottom: 1em;
+}
+li:last-child{
+	margin-bottom: 0;
+}
+div.user-info-container{
+	margin-top: 8em;
+}

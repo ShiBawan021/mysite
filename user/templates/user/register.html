@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% load static %}
+	
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login-register-form.css' %}"/>
+	<link rel="stylesheet" href="{% static 'css/notify.css' %}" />
+{% endblock %}
+
+{% block title %}
+	我的网站|登录
+{% endblock %}
+
+{% block nav %}{% endblock %}
+	
+{% block content %}
+	 <div class="container" id="container">
+	 	<div class="row">
+	 		<div class="col-md-4 register-containter">
+	 			<div class="panel panel-default">
+	 				<div class="panel-body ">
+	 					<div class="close-form">
+	 						<p onclick="colse()">x</p>
+	 					</div>
+	 					<div class="form-containter">
+							<form action="" method="POST" class="register-form" id="register-form">
+								<div class="register-title">
+									<h3>注册</h3>
+									<hr>
+								</div>
+								<div class="register-input" id="register-input">
+									{% csrf_token %}
+									{% for field in reg_form %}
+										{{ field }}
+										<p id="error-msg" class="text-danger"></p>
+									{% endfor %}
+								</div>
+								
+								<span class="pull-left text-danger">{{ reg_form.non_field_errors }}</span>
+								<div class="register-btn">
+									<button type="submit" class="btn btn-primary" name="register">注册</button>
+								</div>
+								<p class="login-url" id="register_animate" onclick="register_scrollTop_animate()">
+									已有账号? 登录
+								</p>	
+								<div class="register-orther">
+									<div class="register-orther-hr"><p>其他登陆方式</p></div>
+								</div>
+							</form>
+							<form action="" method="POST" class="login-form" id="login-form">
+								<div id="msg"></div>
+								<div class="login-title" id="login">
+									<h3>登录</h3>
+									<hr>
+								</div>
+								<div class="login-input">
+									{% csrf_token %}
+									{% for field in login_form %}
+										{{ field }}
+									{% endfor %}
+									<span class="pull-left text-danger">{{ login_form.non_field_errors }}</span>
+								</div>
+								<div class="login-btn">
+									<button type="submit" class="btn btn-primary" name="login">登录</button>
+								</div>
+								<p class="login-url" id="login_animate" onclick="login_scrollTop_animate()">
+									注册账号
+								</p>
+								<div class="login-orther">
+									<div class="login-orther-hr"><p>其他登陆方式</p></div>
+								</div>
+							</form>
+	 					</div>
+	 					<div class="orther-content">
+	 						<p>
+	 							<a href="{% url 'home' %}">ToyBox</a>
+	 							<span>ShiBawan_Creed@163.com</span>
+	 						</p>
+	 					</div>
+	 				</div>
+	 			</div>
+	 		</div> 
+	 	</div>
+	 </div>
+{% endblock %}
+	
+{% block script_extend %}
+	<script>
+		$("#login-form").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: '{% url "login_form" %}',
+				type: 'POST',
+				data: $(this).serialize(),
+				
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						var url=decodeURI(window.location.href);
+						var aa=url.indexOf('=');
+						if (aa>-1){
+							url=url.substring(aa+1);
+							window.location.href = url
+						}
+					}else{
+						var options = {
+						    message: '用户名或密码错误 !',
+						    color: 'danger',
+						    timeout: '3000',
+						};
+						notify(options);
+					}
+				}
+			});
+		});
+		$("#register-form").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: '{% url "register_form" %}',
+				type: 'POST',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						var url=decodeURI(window.location.href);
+						var aa=url.indexOf('=');
+						if (aa>-1){
+							url=url.substring(aa+1);
+							window.location.href = url
+						}
+					}else{
+						if(data['msg']['username']=='400'){
+							$('.register-input #error-msg').eq(0).text('用户已存在')
+						}else{
+							$('.register-input #error-msg').eq(0).text('')
+						}
+						if(data['msg']['email']=='401'){
+							$('.register-input #error-msg').eq(1).text('邮箱以注册')
+						}else{
+							$('.register-input #error-msg').eq(1).text('')
+						}
+						if(data['msg']['password_again']=='402'){
+							$('.register-input #error-msg').eq(3).text('两次输入的密码不一致')
+						}else{
+							$('.register-input #error-msg').eq(3).text('')
+						}
+						console.log(data['msg'])
+					}
+				}
+			});
+		});
+		function register_scrollTop_animate(){
+			var html = $("#register_animate").html();
+			$('html').animate({scrollTop: $('#login-form').offset().top - 120}, 300);
+		}
+		function login_scrollTop_animate(){
+			var html = $("#login_animate").html();
+			$('html').animate({scrollTop: $('#register-form').offset().top - 120}, 300);
+		}
+		function colse(){
+			var url=decodeURI(window.location.href);
+			var aa=url.indexOf('=');
+			if (aa>-1){
+				url=url.substring(aa+1);
+				window.location.href = url
+			}
+		}
+		
+		$('#id_verification_code').wrap('<div class="verification_code_containter"/>');
+		$('.verification_code_containter').append($('<input class="verification_code_btn"/>'));
+		$(".verification_code_btn").attr("type","button");
+		$(".verification_code_btn").attr("value","发送验证码");
+		
+		$(".verification_code_btn").click(function(){
+			var email = $("#email-control").val();
+			if(email==""){
+				var options = {
+				    message: '邮箱不能为空 !',
+				    color: 'danger',
+				    timeout: '3000',
+				};
+				notify(options);
+				return false
+			}
+			$.ajax({
+				url: '{% url "send_verification_code" %}',
+				type: 'GET',
+				data: {
+					'email': email,
+					'send_for': 'register_code'
+				},
+				cache: false,
+				success: function(data){
+					if(data['status']=='ERROR'){
+						alert("data['status']")
+					}
+				}
+			});
+			// send_code按钮变灰
+			$(this).addClass('disabled');
+			$(this).attr('disabled', true);
+			var time = 30;
+			$(this).attr(time + 's');
+			var interval = setInterval(() => {
+			    if(time <= 0){
+			        clearInterval(interval);
+			        $(this).removeClass('disabled');
+			        $(this).attr('disabled', false);
+			        $(this).attr("value", '发送验证码');
+			        return false;
+			    }
+			
+			    time --;
+				$(this).attr("value", time + 's');
+			}, 1000);
+		});
+	</script>
+	<script src="{% static 'js/alert/notify.js' %}"></script>
+{% endblock %}

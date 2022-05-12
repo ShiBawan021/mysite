@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load comment_tags %}
+{% load like_tags %}
+{% load collect_tags %}
+
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/blog_detail.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}"/>
+	<link rel="stylesheet" href="{% static 'css/notify.css' %}" />
+	<!-- 富文本编辑ckeditor -->
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+	<!-- js -->
+	
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-4 col-md-9">
+				<div class="content">
+					<div class="blog-userinfo">
+						<h1 class="blog-title">{{blog.title}}</h1>
+						<span class="author-time-type">
+							<a href="">{{ blog.author }}</a> 
+							<span class="time">{{blog.created_time|date:'Y-m-d'}}</span>
+							<span class="glyphicon glyphicon-tags tag" aria-hidden="true"></span><a href="{% url 'Blogs_with_type' blog.blog_type.pk %}">{{blog.blog_type}}</a>
+						</span>
+						<p>
+							<span class="liked-num" id="liked-num-blog"><img alt="获赞数" src="{% static '\img\赞.svg' %}">{% get_like_count blog %}</span>
+							<span><img alt="阅读量" src="{% static '\img\阅读量.png' %}">{{blog.get_read_num}}</span>
+						</p>
+					</div>
+					<hr>
+					<div class="blog-content">{{ blog.content|safe }}</div>
+					<hr>
+					
+					<div class="blog-more">	
+						<!-- 上一篇or下一篇 -->
+						<div class="blog-more-np">
+							<p>上一篇 : 
+								{% if previous_blog %}
+									<a href="{% url 'Blog_detail' previous_blog.pk %}">{{previous_blog.title}}</a>
+								{% else %}
+									<span>--暂无博客--</span>
+								{% endif %}
+							</p>
+							<p>下一篇 :
+								{% if next_blog %}
+									<a href="{% url 'Blog_detail' next_blog.pk %}">{{next_blog.title}}</a>
+								{% else %}
+									<span>--暂无博客--</span>
+								{% endif %}
+							</p>
+						</div>
+						<div class="like-collect-container">
+							<!-- 点赞 -->
+							<div class="like" onclick="likeChange(this, '{% get_content_type blog %}', {{ blog.pk }})">
+								<span class="like-svg {% get_like_status blog %}">
+									<svg t="1648901800002" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2246" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M939.358251 423.424662c-23.01825-37.252439-62.924121-60.779272-107.019409-63.209624-2.755764-0.38681-5.510504-0.579191-8.347109-0.579191l-152.202471-0.121773c6.649444-28.975938 10.015098-58.653865 10.015098-88.657202 0-28.223808-3.213181-57.139372-9.556657-85.952604-0.447185-2.043542-1.098008-4.006244-1.932002-5.866614-15.820314-57.302077-67.37755-96.841605-127.282918-96.841605-72.827679 0-132.081201 59.254545-132.081201 132.081201 0 3.334955 0.132006 6.66991 0.406253 10.015098-2.196015 57.211003-32.108279 109.947088-80.269162 141.363611-14.447037 9.42465-18.524912 28.773324-9.099239 43.220361 9.414417 14.437827 28.752858 18.535145 43.220361 9.099239 65.811892-42.925648 106.429984-115.325585 108.656699-193.684234 0.030699-1.332345-0.010233-2.663666-0.14224-3.996011-0.203638-2.012843-0.304945-4.016477-0.304945-6.019087 0-38.381146 31.233352-69.614497 69.614497-69.614497 32.57593 0 60.474326 22.204721 67.824735 53.997821 0.356111 1.534959 0.823761 3.019777 1.402953 4.453429 4.696975 22.814612 7.076162 45.579081 7.076162 67.743894 0 37.485753-6.222725 74.352405-18.494213 109.592001-3.324722 9.546424-1.819438 20.111037 4.02671 28.345582 5.856381 8.245801 15.332197 13.146415 25.448602 13.156648l193.226816 0.101307c1.423419 0.264013 2.857071 0.426719 4.300956 0.477884 24.116257 0.9967 45.935192 13.614066 58.603723 34.090423 7.838525 12.31242 11.438517 26.800389 10.431583 41.939181-0.080841 0.945535-0.121773 1.911536-0.11154 2.877537 0 0.854461 0.040932 1.697665 0.11154 2.53166 0.010233 0.335644-0.030699 0.661056-0.11154 0.976234-0.101307 0.376577-0.193405 0.772596-0.284479 1.159406l-74.972529 330.391802c-0.914836 1.281179-1.738597 2.6432-2.449795 4.046153-5.937223 11.762905-14.660908 21.48329-25.346271 28.172643-10.746762 6.812149-23.059182 10.614755-35.757388 11.06194-0.854461-0.061398-513.766226-0.224104-513.766226-0.224104-0.467651-0.020466-0.935302-0.030699-1.402953-0.030699 0 0-111.01542 0.172939-112.718201 0.457418-1.932002 0-3.446495-1.50426-3.446495-3.415796l0.299829-416.334173c0-1.901303 1.545192-3.446495 3.01466-3.456728l1.245364 0.121773c1.174756 0.132006 2.653433 0.284479 3.52836 0.193405l83.82822-0.222057 0 339.367221c0 17.253966 13.979386 31.233352 31.233352 31.233352s31.233352-13.979386 31.233352-31.233352L281.009092 435.350273c0-1.778506 0-8.631588 0-10.411117 0-17.253966-13.979386-30.928407-31.233352-30.928407-1.50426 0-117.547183 0.304945-119.402437 0.304945-36.34272 0-65.913199 29.566386-65.913199 65.893756l-0.299829 416.334173c0 36.337603 29.571503 65.902966 65.913199 65.902966 2.541893 0 111.406323-0.457418 111.406323-0.457418 0.457418 0.020466 0.925069 0.030699 1.382487 0.030699 0 0 511.458671 0.274246 512.505513 0.274246 25.469068 0 50.296523-7.197936 71.647807-20.73116 19.612687-12.281721 35.777855-29.881564 46.839795-50.967812 3.660366-5.622044 6.435573-11.875468 8.256034-18.615986 0.11154-0.416486 0.213871-0.823761 0.304945-1.240247l74.881454-330.340637c1.596358-6.212492 2.257413-12.586666 2.00261-18.992563C960.892707 473.366098 953.948551 446.331371 939.358251 423.424662z" p-id="2247"></path><path d="M450.027553 518.650467c-17.253966 0-31.233352 13.979386-31.233352 31.233352l0 30.470989c0 17.253966 13.979386 31.233352 31.233352 31.233352 17.253966 0 31.233352-13.979386 31.233352-31.233352l0-30.470989C481.260905 532.629853 467.281519 518.650467 450.027553 518.650467z" p-id="2248"></path><path d="M693.805696 518.650467c-17.253966 0-31.233352 13.979386-31.233352 31.233352l0 30.470989c0 17.253966 13.979386 31.233352 31.233352 31.233352 17.253966 0 31.233352-13.979386 31.233352-31.233352l0-30.470989C725.039048 532.629853 711.058638 518.650467 693.805696 518.650467z" p-id="2249"></path><path d="M648.940882 660.09492c-14.304797-9.393951-33.592073-5.398964-43.159986 8.763594-0.132006 0.193405-13.614066 19.754926-34.171264 19.754926-19.98824 0-32.423457-18.09717-33.266661-19.368116-9.17087-14.427594-28.254507-18.809391-42.834574-9.770528-14.650675 9.109472-19.155269 28.366048-10.055007 43.016723 11.214413 18.047028 41.96988 48.588625 86.156242 48.588625 43.962258 0 75.104535-30.318516 86.572728-48.222281C667.404396 688.461991 663.216004 669.500127 648.940882 660.09492z" p-id="2250"></path></svg>
+								</span>
+								<span class="liked-num" id="liked-num" style="display: none;">{% get_like_count blog %}</span>
+							</div>
+							<!-- 收藏 -->
+							<div title="收藏" class="collect" onclick="collectChange(this, '{% get_content_type blog %}', {{ blog.pk }})">
+								<span>
+									<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="collect-svg {% get_collect_status blog %}" t="1652002918175" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7949" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs><style type="text/css">@font-face { font-family: feedback-iconfont; src: url("//at.alicdn.com/t/font_1031158_u69w8yhxdu.woff2?t=1630033759944") format("woff2"), url("//at.alicdn.com/t/font_1031158_u69w8yhxdu.woff?t=1630033759944") format("woff"), url("//at.alicdn.com/t/font_1031158_u69w8yhxdu.ttf?t=1630033759944") format("truetype"); }
+									</style></defs><path d="M832.8 63.9H191.2c-17.8 0-32.3 14.5-32.3 32.3V878c0 23.3 23.9 38.9 45.3 29.6L489.8 782l331.4 128.4c21.2 8.2 44-7.4 44-30.1V96.2c-0.1-17.9-14.5-32.3-32.4-32.3z" fill="" p-id="7950"></path></svg>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 评论区 -->
+					<div class="comment-container">
+						<div class="comment_textarea" id="comment_textarea">
+							{% if user.is_authenticated %}
+								<form id="comment_form" action="{% url 'Update_Comment' %}" method="POST" class="comment_textarea">
+									<div class="textarea-btn">
+										<h3>评论 {% get_comment_count blog %}</h3>
+										<button class="btn btn-primary">发表评论</button>
+									</div>
+									<hr>
+									
+									<!-- 想要回复的评论 -->
+									<div id="reply_content_container" style="display: none;">
+										<p style="margin: 0;">回复: </p>
+										<div id="reply_content"></div>
+									</div>
+									
+									<!-- 评论框 -->
+									{% csrf_token %}
+									{% get_comment_form blog as comment_form %}
+									{%for field in comment_form %}
+										{{ field }}
+									{% endfor %}
+									<p id="comment_error" class="text-danger"></p>	
+								</form>
+							{% else %}
+							
+								<!-- 登录注册 -->
+								<div class="login-register-btn">
+								未登录,登陆后尚可评论 <a class="btn btn-primary" id='user-login'>登录</a><a class="btn btn-danger" href="{% url 'register' %}?from={{ request.get_full_path }}">注册</a>					
+								</div>
+							{% endif %}
+							<hr>
+						</div>
+						<!-- 评论列表 -->
+						<div class="comment_list" id="comment_list">
+							{% get_comment_list blog as comments %}
+							{% for comment in comments %}
+								<div id="root_{{ comment.pk }}" class="comment">
+									<p class="comment-user-time">
+										<a href="" class="comment-user">{{ comment.user.get_nickname_or_username }}</a> · <span class="comment-time">{{ comment.comment_time|date:'Y-m-d H:i' }}</span>
+									</p> 
+									<div id="comment_{{ comment.pk }}" class="comment_text">{{ comment.text|safe }}</div>
+										<div class="like-comment" onclick="likeChange(this, '{% get_content_type comment %}', {{ comment.pk }})">
+											<span class="like-svg {% get_like_status comment %}">
+												<svg t="1649321340252" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2389" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M125.231701 863.127056l140.471288 0 0-421.36577-140.471288 0L125.231701 863.127056zM897.74397 476.896504c0-38.601156-31.578206-70.211085-70.206992-70.211085l-221.224474 0 35.07689-161.53093 0-10.547217c0-14.068414-6.996344-28.084639-13.991666-38.60525l-38.676881-35.131125-231.718479 231.746108c-14.040784 10.547217-21.089317 28.080545-21.089317 49.14428l0 351.155708c0 38.601156 31.632441 70.210062 70.260204 70.210062l316.024583 0c28.080545 0 52.668547-17.541515 63.215764-42.153052l105.337093-249.282506c3.497661-6.995321 3.497661-17.539468 3.497661-24.583908l0-70.211085L897.74397 476.896504C897.74397 480.420771 897.74397 476.896504 897.74397 476.896504" p-id="2390"></path></svg>
+											</span>
+											<span class="liked-num-comment" id="liked-num-comment">{% get_like_count comment %}</span>
+										</div>
+									{% if user.is_authenticated %}
+										<a href="javascript:reply({{ comment.pk }})">回复</a>
+									{% else %}
+										<a href="javascript:reply({{ comment.pk }})" onclick="comment_reply()">回复</a>
+									{% endif %}
+									{% for reply in comment.root_comment.all %}
+										<!-- 回复 -->
+										<div class="reply">
+											<p class="reply-user">
+												<a href="">{{ reply.user.get_nickname_or_username }}</a>
+												<img class="reply-svg" src="{% static '\img\上三角形.svg' %}"> <span>{{reply.reply_to.username}}</span>
+											</p>
+											<div id="comment_{{ reply.pk }}" class="comment_text">
+												{{ reply.text|safe }}
+											</div>
+											<div class="comment-time-like-reply">
+												<span class="comment-time">{{ comment.comment_time|date:'Y-m-d H:i' }}</span>
+												<div class="like-comment-reply" onclick="likeChange(this, '{% get_content_type reply %}', {{ reply.pk }})">										
+													<span class="like-svg {% get_like_status reply %}">
+														<svg t="1649321340252" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2389" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
+															<path d="M125.231701 863.127056l140.471288 0 0-421.36577-140.471288 0L125.231701 863.127056zM897.74397 476.896504c0-38.601156-31.578206-70.211085-70.206992-70.211085l-221.224474 0 35.07689-161.53093 0-10.547217c0-14.068414-6.996344-28.084639-13.991666-38.60525l-38.676881-35.131125-231.718479 231.746108c-14.040784 10.547217-21.089317 28.080545-21.089317 49.14428l0 351.155708c0 38.601156 31.632441 70.210062 70.260204 70.210062l316.024583 0c28.080545 0 52.668547-17.541515 63.215764-42.153052l105.337093-249.282506c3.497661-6.995321 3.497661-17.539468 3.497661-24.583908l0-70.211085L897.74397 476.896504C897.74397 480.420771 897.74397 476.896504 897.74397 476.896504" p-id="2390"></path>
+														</svg>
+													</span>
+													<span class="liked-num-comment" id="liked-num-comment">{% get_like_count reply %}</span>
+												</div>
+												{% if user.is_authenticated %}
+													<a href="javascript:reply({{ comment.pk }})">回复</a>
+												{% else %}
+													<a href="javascript:reply({{ comment.pk }})" onclick="comment_reply()">回复</a>
+												{% endif %}
+											</div>
+										</div>
+										{% endfor %}
+									<hr>
+									</div>
+							{% empty %}
+								<span id="no_comment">暂无评论</span>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hidden-xs col-sm-4 col-md-3">
+				<div class="orther-blog">
+					<h3>其他热门博客</h3>
+					<hr />
+					<ul>
+						{% for orther_blogs in orther_blog %}
+							<li>
+								<a href="{% url 'Blog_detail' orther_blogs.content_object.pk %}">{{orther_blogs.content_object.title}}</a>
+							</li>
+						{% endfor %}
+					</ul>
+					
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+{% endblock %}
+
+{% block script_extend %}	
+	<script type="text/jscript">
+		String.prototype.format = function(){
+			var str = this;
+			for(var i = 0; i < arguments.length; i++){
+				var str = str.replace(new RegExp('\\{' + i + '\\}', 'g'), arguments[i]);
+			};
+			return str
+		}
+		function reply(reply_comment_id){
+			// 设置值
+			$('#reply_comment_id').val(reply_comment_id);
+			var html = $("#comment_" + reply_comment_id).html();
+			$('#reply_content').html(html);
+			$('#reply_content_container').show();
+			
+			$('html').animate({scrollTop: $('#comment_form').offset().top - 60}, 300, function(){
+				CKEDITOR.instances['id_text'].focus();
+			});
+		}
+		function timeFormat(timestamp){
+		    var datetime = new Date(timestamp * 1000);
+		    var year = datetime.getFullYear();
+		    var month = datetime.getMonth() + 1;
+		    var day = datetime.getDate();
+		    var hour = datetime.getHours();
+		    var minute = datetime.getMinutes();
+		    var second = datetime.getSeconds();
+		    return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+		}
+		function comment_reply(){
+			$('#login-modal').modal('show')
+		}
+		$("#comment_form").submit(function(){
+			// 判断评论内容是否为空
+			$("#comment_error").text('')
+			if(CKEDITOR.instances['id_text'].document.getBody().getText().trim()==''){
+				$("#comment_error").text('评论内容不能为空')
+				return false
+			}
+			// 更新数据到textarea
+			CKEDITOR.instances['id_text'].updateElement();
+			// 异步提交
+			$.ajax({
+					url: "{% url 'Update_Comment' %}",
+					type: 'POST',
+					data: $(this).serialize(),
+					cache: false,
+					success: function(data){
+						console.log(data);
+						if(data['status']=="SUCCESS"){
+							//插入数据
+							if($('#reply_comment_id').val()=='0'){
+								// 插入评论
+								var comment_html = '<div id="root_{0}" class="comment">'+
+									'<p class="comment-user-time">'+
+										'<a href="" class="comment-user">{1}</a> · <span class="comment-time">{3}</span>'+
+									'</p>'+ 
+									'<div id="comment_{0}" class="comment_text">{2}</div>'+
+										'<div class="like-comment" onclick="likeChange(this, \'{4}\', {0})">'+
+											'<span class="like-svg">'+
+												'<svg t="1649321340252" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2389" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">'+
+													'<path d="M125.231701 863.127056l140.471288 0 0-421.36577-140.471288 0L125.231701 863.127056zM897.74397 476.896504c0-38.601156-31.578206-70.211085-70.206992-70.211085l-221.224474 0 35.07689-161.53093 0-10.547217c0-14.068414-6.996344-28.084639-13.991666-38.60525l-38.676881-35.131125-231.718479 231.746108c-14.040784 10.547217-21.089317 28.080545-21.089317 49.14428l0 351.155708c0 38.601156 31.632441 70.210062 70.260204 70.210062l316.024583 0c28.080545 0 52.668547-17.541515 63.215764-42.153052l105.337093-249.282506c3.497661-6.995321 3.497661-17.539468 3.497661-24.583908l0-70.211085L897.74397 476.896504C897.74397 480.420771 897.74397 476.896504 897.74397 476.896504" p-id="2390"></path>'+
+												'</svg>'+
+											'</span>'+
+											'<span class="liked-num-comment" id="liked-num-comment"></span>'+
+										'</div>'+								 
+									'<a href="javascript:reply({0})">回复</a>'+
+								'</div>'+
+								'<hr/>';
+								comment_html = comment_html.format(data['pk'], data['username'], data['text'], timeFormat(data['comment_time']), data['content_type'])
+								$("#comment_list").prepend(comment_html);
+							}else{
+								// 插入回复
+								var reply_svg = "{% static 'img\上三角形.svg' %}"
+								var reply_html = '<div class="reply">'+
+									'<p class="reply-user">'+
+										'<a href="">{1}</a>'+
+										'<img class="reply-svg" src="{5}"> <span>{1}</span>'+
+									'</p>'+
+									'<div id="comment_{0}" class="comment_text">{2}</div>'+
+									'<div class="comment-time-like-reply">'+
+										'<span class="comment-time">{3}</span>'+
+										'<div class="like-comment-reply" onclick="likeChange(this, \'{4}\', {0})">'+
+											'<span class="like-svg">'+
+												'<svg t="1649321340252" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2389" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">'+
+													'<path d="M125.231701 863.127056l140.471288 0 0-421.36577-140.471288 0L125.231701 863.127056zM897.74397 476.896504c0-38.601156-31.578206-70.211085-70.206992-70.211085l-221.224474 0 35.07689-161.53093 0-10.547217c0-14.068414-6.996344-28.084639-13.991666-38.60525l-38.676881-35.131125-231.718479 231.746108c-14.040784 10.547217-21.089317 28.080545-21.089317 49.14428l0 351.155708c0 38.601156 31.632441 70.210062 70.260204 70.210062l316.024583 0c28.080545 0 52.668547-17.541515 63.215764-42.153052l105.337093-249.282506c3.497661-6.995321 3.497661-17.539468 3.497661-24.583908l0-70.211085L897.74397 476.896504C897.74397 480.420771 897.74397 476.896504 897.74397 476.896504" p-id="2390"></path>'+
+												'</svg>'+
+											'</span>'+
+											'<span class="liked-num-comment" id="liked-num-comment"></span>'+
+										'</div>'+
+										'<a href="javascript:reply({0})">回复</a>'+
+									'</div>'+
+								'</div>';
+								reply_html = reply_html.format(data['pk'], data['username'], data['text'], timeFormat(data['comment_time']), data['content_type'], reply_svg)
+								$("#root_" + data['root_pk']).append(reply_html);
+							}
+							// 清空textarea的内容
+							CKEDITOR.instances['id_text'].setData('');
+							$('#reply_content_container').hide();
+							$('#reply_comment_id').val('0');
+							$('#no_comment').remove()
+						}else{
+							// 显示errors
+							$('#login-modal').modal('show')
+						}
+					},
+					error: function(xhr){
+						console.log(xhr);
+					}
+			});
+			return false;
+		});
+		function likeNum(){
+			var liked_num = $(obj.getElementsByClassName('liked-num'));
+			liked_num.text(data['liked_num']);
+		}
+		function likeChange(obj, content_type,object_id){
+			var is_like = obj.getElementsByClassName('active').length == 0
+			$.ajax({
+				url: "{% url 'like_change' %}",
+				type: "GET" ,
+				data: {
+					content_type: content_type,
+					object_id: object_id,
+					is_like: is_like
+				},
+				cache: false,
+				success: function(data){
+					console.log(data)
+					if(data['status']=='SUCCESS'){
+						// 更新点赞状态
+						var element = $(obj.getElementsByClassName('like-svg'));
+						if(is_like){
+							element.addClass('active')
+						}else{
+							element.removeClass('active')
+						}
+						// 更新点赞数量
+						var liked_num = $(obj.getElementsByClassName("liked-num"));
+						var liked_num_blog = document.getElementById("liked-num-blog");
+						var liked_num_comment = $(obj.getElementsByClassName('liked-num-comment'));
+						// liked_num.text(data['liked_num']);
+						$('.alert').alert('close')
+						liked_num.text(data['liked_num'])
+						liked_num_blog.innerHTML = '<img alt="获赞数" src="{% static '\img\赞.svg' %}">' + $('#liked-num').text()
+						if(data['liked_num']==0){
+							liked_num_comment.text('')
+						}else{
+							liked_num_comment.text(data['liked_num']);
+						}
+					}else{
+						if(data['code']==400){
+							$('#login-modal').modal('show')
+						}else{
+							alert(data['message']);
+						}
+					}
+				},
+				error: function(xhr){
+					console.log(xhr)
+				}
+			})
+		}
+		
+		function collectChange(obj, content_type,object_id){
+			var is_collect = obj.getElementsByClassName('active').length == 0
+			$.ajax({
+				url: "{% url 'collect_change' %}",
+				type: "GET" ,
+				data: {
+					content_type: content_type,
+					object_id: object_id,
+					is_collect: is_collect
+				},
+				cache: false,
+				success: function(data){
+					console.log(data)
+					if(data['status']=='SUCCESS'){
+						// 更新点赞状态
+						var element = $(obj.getElementsByClassName('collect-svg'));
+						if(is_collect){
+							element.addClass('active')
+						}else{
+							element.removeClass('active')
+						}
+					}else{
+						if(data['code']==400){
+							$('#login-modal').modal('show')
+						}else{
+							alert(data['message']);
+						}
+					}
+				},
+				error: function(xhr){
+					console.log(xhr)
+				}
+			})
+		}
+	</script>
+	<script src="{% static 'js/alert/notify.js' %}"></script>
+{% endblock %}
+
+	
+
+		
+		

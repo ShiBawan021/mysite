@@ -1,0 +1,38 @@
+#title{
+	text-align: center;
+	margin-top: 10em;
+	margin-bottom: 3em;
+	
+}
+#title h3{
+	font-size: 40px;
+	margin: 0;
+	padding: 0;
+}
+div#container{
+	margin: 0 auto;
+	height: 20em;
+	min-width: 50em;
+	max-width: 70em;
+}
+div.hot_data{
+	text-align: center;
+	margin-top: 2em;
+}
+div.row{
+	margin-bottom: 1em!important;
+}
+div.col-xs-10{
+	padding: 5em;
+	background-color: white;
+	overflow：hidden
+}
+div.col-xs-10 p{
+	text-align: center;
+	margin-bottom: 0;
+	margin-top: 2em;
+}
+body{
+	background-color: #f7f7f8!important;;
+}
+

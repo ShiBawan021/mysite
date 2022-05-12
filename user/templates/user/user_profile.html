@@ -1,0 +1,373 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load like_tags %}
+
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/user_profile.css' %}"/>
+	<link rel="stylesheet" href="{% static 'css/notify.css' %}" />
+	<!-- 富文本编辑ckeditor -->
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+	<!-- js -->
+{% endblock %}
+
+{% block title %}
+	{{user.username}} | UserProfile
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-10 user-profile-container ">
+				<div class="panel panel-default">
+				  <div class="panel-body">
+				    {% if user.is_authenticated %}
+				    	<div class="tab">
+				    	  <!-- Nav tabs -->
+				    	  <ul class="nav nav-tabs user-profile-tab" role="tablist" id="user-profile-tab">
+				    	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">我的稿件</a></li>
+				    	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">稿件管理</a></li>
+				    	    <li role="presentation">
+				    			<a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" id="message-num">			
+				    				消息
+									
+				    				<span id="msg-num">
+				    					{% for message_num in messages_num %}
+				    						{{ message_num.num }}
+				    					{% endfor %}
+										
+				    				</span>
+				    			</a>
+				    		</li>
+				    	    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">收藏</a></li>
+				    	  </ul>
+				    	
+				    	  <!-- Tab panes -->
+				    	  <div class="tab-content">
+				    	    <div role="tabpanel" class="tab-pane active" id="home">
+				    			<div class="blog-info-container">
+				    				{% for blog in blogs %}
+				    					<div id="blog-info-{{blog.id}}" class="blog-info">
+				    						<p>
+				    							<a href="{% url 'Blog_detail' blog.pk %}">{{ blog.title }}</a>
+												<span class="created-time">{{ blog.created_time|date:'Y-m-d' }}</span>
+													<span class="like-svg svg">
+														<svg t="1648901800002" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2246" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M939.358251 423.424662c-23.01825-37.252439-62.924121-60.779272-107.019409-63.209624-2.755764-0.38681-5.510504-0.579191-8.347109-0.579191l-152.202471-0.121773c6.649444-28.975938 10.015098-58.653865 10.015098-88.657202 0-28.223808-3.213181-57.139372-9.556657-85.952604-0.447185-2.043542-1.098008-4.006244-1.932002-5.866614-15.820314-57.302077-67.37755-96.841605-127.282918-96.841605-72.827679 0-132.081201 59.254545-132.081201 132.081201 0 3.334955 0.132006 6.66991 0.406253 10.015098-2.196015 57.211003-32.108279 109.947088-80.269162 141.363611-14.447037 9.42465-18.524912 28.773324-9.099239 43.220361 9.414417 14.437827 28.752858 18.535145 43.220361 9.099239 65.811892-42.925648 106.429984-115.325585 108.656699-193.684234 0.030699-1.332345-0.010233-2.663666-0.14224-3.996011-0.203638-2.012843-0.304945-4.016477-0.304945-6.019087 0-38.381146 31.233352-69.614497 69.614497-69.614497 32.57593 0 60.474326 22.204721 67.824735 53.997821 0.356111 1.534959 0.823761 3.019777 1.402953 4.453429 4.696975 22.814612 7.076162 45.579081 7.076162 67.743894 0 37.485753-6.222725 74.352405-18.494213 109.592001-3.324722 9.546424-1.819438 20.111037 4.02671 28.345582 5.856381 8.245801 15.332197 13.146415 25.448602 13.156648l193.226816 0.101307c1.423419 0.264013 2.857071 0.426719 4.300956 0.477884 24.116257 0.9967 45.935192 13.614066 58.603723 34.090423 7.838525 12.31242 11.438517 26.800389 10.431583 41.939181-0.080841 0.945535-0.121773 1.911536-0.11154 2.877537 0 0.854461 0.040932 1.697665 0.11154 2.53166 0.010233 0.335644-0.030699 0.661056-0.11154 0.976234-0.101307 0.376577-0.193405 0.772596-0.284479 1.159406l-74.972529 330.391802c-0.914836 1.281179-1.738597 2.6432-2.449795 4.046153-5.937223 11.762905-14.660908 21.48329-25.346271 28.172643-10.746762 6.812149-23.059182 10.614755-35.757388 11.06194-0.854461-0.061398-513.766226-0.224104-513.766226-0.224104-0.467651-0.020466-0.935302-0.030699-1.402953-0.030699 0 0-111.01542 0.172939-112.718201 0.457418-1.932002 0-3.446495-1.50426-3.446495-3.415796l0.299829-416.334173c0-1.901303 1.545192-3.446495 3.01466-3.456728l1.245364 0.121773c1.174756 0.132006 2.653433 0.284479 3.52836 0.193405l83.82822-0.222057 0 339.367221c0 17.253966 13.979386 31.233352 31.233352 31.233352s31.233352-13.979386 31.233352-31.233352L281.009092 435.350273c0-1.778506 0-8.631588 0-10.411117 0-17.253966-13.979386-30.928407-31.233352-30.928407-1.50426 0-117.547183 0.304945-119.402437 0.304945-36.34272 0-65.913199 29.566386-65.913199 65.893756l-0.299829 416.334173c0 36.337603 29.571503 65.902966 65.913199 65.902966 2.541893 0 111.406323-0.457418 111.406323-0.457418 0.457418 0.020466 0.925069 0.030699 1.382487 0.030699 0 0 511.458671 0.274246 512.505513 0.274246 25.469068 0 50.296523-7.197936 71.647807-20.73116 19.612687-12.281721 35.777855-29.881564 46.839795-50.967812 3.660366-5.622044 6.435573-11.875468 8.256034-18.615986 0.11154-0.416486 0.213871-0.823761 0.304945-1.240247l74.881454-330.340637c1.596358-6.212492 2.257413-12.586666 2.00261-18.992563C960.892707 473.366098 953.948551 446.331371 939.358251 423.424662z" p-id="2247"></path><path d="M450.027553 518.650467c-17.253966 0-31.233352 13.979386-31.233352 31.233352l0 30.470989c0 17.253966 13.979386 31.233352 31.233352 31.233352 17.253966 0 31.233352-13.979386 31.233352-31.233352l0-30.470989C481.260905 532.629853 467.281519 518.650467 450.027553 518.650467z" p-id="2248"></path><path d="M693.805696 518.650467c-17.253966 0-31.233352 13.979386-31.233352 31.233352l0 30.470989c0 17.253966 13.979386 31.233352 31.233352 31.233352 17.253966 0 31.233352-13.979386 31.233352-31.233352l0-30.470989C725.039048 532.629853 711.058638 518.650467 693.805696 518.650467z" p-id="2249"></path><path d="M648.940882 660.09492c-14.304797-9.393951-33.592073-5.398964-43.159986 8.763594-0.132006 0.193405-13.614066 19.754926-34.171264 19.754926-19.98824 0-32.423457-18.09717-33.266661-19.368116-9.17087-14.427594-28.254507-18.809391-42.834574-9.770528-14.650675 9.109472-19.155269 28.366048-10.055007 43.016723 11.214413 18.047028 41.96988 48.588625 86.156242 48.588625 43.962258 0 75.104535-30.318516 86.572728-48.222281C667.404396 688.461991 663.216004 669.500127 648.940882 660.09492z" p-id="2250"></path></svg>
+													{% get_like_count blog %}
+													</span>
+													
+												<span class="read-num-svg svg">
+														<svg t="1652276854871" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1376" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs></defs><path d="M720.709632 374.319104c0 16.965632-13.754368 30.72-30.72 30.72l-348.16 0c-16.965632 0-30.72-13.754368-30.72-30.72l0 0c0-16.965632 13.754368-30.72 30.72-30.72l348.16 0C706.956288 343.599104 720.709632 357.353472 720.709632 374.319104L720.709632 374.319104z" p-id="1377"></path><path d="M718.661632 514.607104c0 16.965632-13.754368 30.72-30.72 30.72l-348.16 0c-16.965632 0-30.72-13.754368-30.72-30.72l0 0c0-16.965632 13.754368-30.72 30.72-30.72l348.16 0C704.908288 483.887104 718.661632 497.641472 718.661632 514.607104L718.661632 514.607104z" p-id="1378"></path><path d="M722.85184 654.895104c0 16.965632-13.754368 30.72-30.72 30.72l-348.16 0c-16.965632 0-30.72-13.754368-30.72-30.72l0 0c0-16.965632 13.754368-30.72 30.72-30.72l348.16 0C709.098496 624.175104 722.85184 637.929472 722.85184 654.895104L722.85184 654.895104z" p-id="1379"></path><path d="M857.772032 235.984896c-0.30208-14.989312-12.539904-27.049984-27.60192-27.049984s-27.297792 12.060672-27.60192 27.049984l-0.077824 0 0 580.901888c0 28.442624-23.058432 51.501056-51.50208 51.501056L280.925184 868.38784c-28.442624 0-51.501056-23.058432-51.501056-51.501056L229.424128 212.3264c0-28.442624 23.058432-51.501056 51.501056-51.501056l423.26016 0 0-0.217088c0.526336 0.023552 1.055744 0.039936 1.588224 0.039936 18.803712 0 34.048-15.244288 34.048-34.049024 0-18.803712-15.244288-34.048-34.048-34.048-0.53248 0-1.061888 0.016384-1.588224 0.039936l0-0.039936L235.568128 92.551168c-33.932288 0-61.44 27.507712-61.44 61.44l0 721.230848c0 33.932288 27.507712 61.44 61.44 61.44l560.777216 0c33.932288 0 61.44-27.507712 61.44-61.44L857.785344 235.984896 857.772032 235.984896z" p-id="1380"></path></svg>
+													{{blog.get_read_num}}
+												</span>
+				    						</p>
+				    					</div>
+				    				{% endfor %}
+									
+				    			</div>
+								<nav class="blog-paginator" aria-label="Page navigation" >
+								  <ul class="pagination">
+								    <li>
+										{% if page_of_blogs.has_previous %}
+											<a href="?=page{{page_of_blogs.previous_page_number}}" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										{% else %}
+											<span aria-hidden="true">&laquo;</span>
+										{% endif %}
+										
+								    </li>
+									{% for page_num in page_range %}
+										{% if page_num == page_of_blogs.number %}
+											<li class="active"><a href="?page={{page_num}}">{{page_num}}</a></li>
+										{% else %}
+											{% if page_num == '...' %}
+												<li><span>{{page_num}}</span></li>
+											{% else %}
+												<li><a href="?page={{page_num}}">{{page_num}}</a></li>
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+								    <li>
+										{% if page_of_blogs.has_next %}
+											<a href="?page={{page_of_blogs.next_page_number}}" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										{% else %}
+											<span aria-hidden="true">&raquo;</span>
+										{% endif %}
+								    </li>
+								  </ul>
+								</nav>
+				    		</div>
+				    	    <div role="tabpanel" class="tab-pane" id="profile">
+				    			<div class="blog-manage-container">
+				    				{% for blog in blogs_manage%}
+				    					<div id="blog-manage-{{blog.id}}" class="blog-manage">
+				    						<p>
+				    							<a href="{% url 'Blog_detail' blog.pk %}">{{ blog.title }}</a>
+												<span>
+													<a href="{% url 'edit_blog' %}?from={{blog.pk}}"><span class="btn btn-primary">编辑稿件</span></a>
+													<span class="btn btn-danger" onclick="del_blog_modal_show({{blog.id}})">删除稿件</span>
+												</span>
+				    						</p>
+				    					</div>
+				    				{% endfor %}
+				    			</div>
+				    		</div>
+				    	    <div role="tabpanel" class="tab-pane" id="messages">
+				    			<div class="reply-card-container">
+				    				{% for reply_card in reply_cards %}
+				    					<div id="reply-card-{{ reply_card.id }}" class="reply-card">
+				    						<p><a href="" class="comment-user">{{reply_card.comment_user}}</a>{{ reply_card.comment_type }} :</p>
+				    						<p>{{ reply_card.text|safe }}</p>
+				    						<p>{{ reply_card.comment_time|date:'Y-m-d' }} 
+											<span>
+												<svg t="1652280761586" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2369" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs></defs><path d="M185.2 888.7c-16.6 0-30-13.4-30-30v-580c0-49.6 40.4-90 90-90h540c49.6 0 90 40.4 90 90v410c0 49.6-40.4 90-90 90h-429c-16.6 0-30-13.4-30-30s13.4-30 30-30h429c16.5 0 30-13.5 30-30v-410c0-16.5-13.5-30-30-30h-540c-16.5 0-30 13.5-30 30v580c0 16.5-13.5 30-30 30z m490.1-430.5H347c-16.6 0-30-13.4-30-30s13.4-30 30-30h328.3c16.6 0 30 13.4 30 30s-13.4 30-30 30zM494 598.2H345.7c-16.6 0-30-13.4-30-30s13.4-30 30-30H494c16.6 0 30 13.4 30 30s-13.4 30-30 30zM194.2 883.7c-9.8 0-19.3-4.8-25.1-13.5-9.1-13.9-5.2-32.5 8.6-41.5l160-105c13.9-9.1 32.5-5.2 41.5 8.6 9.1 13.9 5.2 32.5-8.6 41.5l-160 105c-5 3.3-10.8 4.9-16.4 4.9z" p-id="2370"></path></svg>
+												<a href="http://localhost:8000{{ reply_card.url }}">回复</a>
+											</span>
+												<svg t="1652280777231" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3203" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs></defs><path d="M687.603949 656.994302 541.10027 510.457878 687.603949 363.943966c8.829086-8.840342 8.829086-23.122627 0-31.961946-8.850575-8.840342-23.13286-8.840342-31.962969 0L509.138324 478.495932 362.623389 331.980997c-8.840342-8.818853-23.122627-8.818853-31.962969 0-8.840342 8.840342-8.840342 23.144116 0 31.984459l146.493445 146.514935L330.638931 656.994302c-8.819876 8.830109-8.819876 23.133883 0 31.962969 8.840342 8.829086 23.144116 8.829086 31.984459 0l146.514935-146.514935 146.502655 146.514935c8.830109 8.829086 23.112394 8.829086 31.962969 0C696.433034 680.129208 696.45657 665.824411 687.603949 656.994302z" p-id="3204"></path><path d="M938.362063 510.457878c0-237.061161-192.174857-429.234995-429.247274-429.234995-237.062184 0-429.246251 192.173834-429.246251 429.234995 0 237.083673 192.185091 429.257507 429.246251 429.257507 97.345072 0 186.435133-33.110095 258.440074-87.677898 2.958378-3.354398 4.900613-7.636934 4.900613-12.449543 0-10.506285-8.521071-19.026332-19.027355-19.026332-5.431709 0-10.287297 2.162246-13.752212 5.826705l-0.2415 0c-64.456011 47.414893-143.745868 75.800383-229.876528 75.800383-214.679407 0-388.730489-174.073594-388.730489-388.719232 0-214.688617 174.051081-388.718209 388.730489-388.718209 214.688617 0 388.697743 174.029592 388.697743 388.718209 0 65.548902-15.386432 127.277802-44.081984 181.490517l0 0.309038c-0.508583 1.811252-1.104147 3.576455-1.104147 5.519714 0 10.507308 8.520047 19.028379 19.028379 19.028379 8.18952 0 15.054881-5.254677 17.703197-12.494569l0 0.132006C920.349827 648.38625 938.362063 581.536726 938.362063 510.457878z" p-id="3205"></path></svg>
+												<span id="reply_card.id" onclick="del_reply_card_moda_show({{ reply_card.id }})">删除通知消息
+											</span>
+											</p>
+				    					</div>
+				    				{% endfor %}
+				    			</div>
+				    		</div>
+				    	    <div role="tabpanel" class="tab-pane" id="settings">
+				    			<div class="collect-info-container">
+				    				{% for collect in collects %}
+				    					<div id="collect-info-{{ collect.id }}" class="collect-info">
+				    						<p>
+				    							<a href="{% url 'Blog_detail' collect.object_id %}">{{ collect.content_object.title }}</a>
+				    							<span class="collect-del-btn">
+													<svg t="1652280777231" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3203" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs></defs><path d="M687.603949 656.994302 541.10027 510.457878 687.603949 363.943966c8.829086-8.840342 8.829086-23.122627 0-31.961946-8.850575-8.840342-23.13286-8.840342-31.962969 0L509.138324 478.495932 362.623389 331.980997c-8.840342-8.818853-23.122627-8.818853-31.962969 0-8.840342 8.840342-8.840342 23.144116 0 31.984459l146.493445 146.514935L330.638931 656.994302c-8.819876 8.830109-8.819876 23.133883 0 31.962969 8.840342 8.829086 23.144116 8.829086 31.984459 0l146.514935-146.514935 146.502655 146.514935c8.830109 8.829086 23.112394 8.829086 31.962969 0C696.433034 680.129208 696.45657 665.824411 687.603949 656.994302z" p-id="3204"></path><path d="M938.362063 510.457878c0-237.061161-192.174857-429.234995-429.247274-429.234995-237.062184 0-429.246251 192.173834-429.246251 429.234995 0 237.083673 192.185091 429.257507 429.246251 429.257507 97.345072 0 186.435133-33.110095 258.440074-87.677898 2.958378-3.354398 4.900613-7.636934 4.900613-12.449543 0-10.506285-8.521071-19.026332-19.027355-19.026332-5.431709 0-10.287297 2.162246-13.752212 5.826705l-0.2415 0c-64.456011 47.414893-143.745868 75.800383-229.876528 75.800383-214.679407 0-388.730489-174.073594-388.730489-388.719232 0-214.688617 174.051081-388.718209 388.730489-388.718209 214.688617 0 388.697743 174.029592 388.697743 388.718209 0 65.548902-15.386432 127.277802-44.081984 181.490517l0 0.309038c-0.508583 1.811252-1.104147 3.576455-1.104147 5.519714 0 10.507308 8.520047 19.028379 19.028379 19.028379 8.18952 0 15.054881-5.254677 17.703197-12.494569l0 0.132006C920.349827 648.38625 938.362063 581.536726 938.362063 510.457878z" p-id="3205"></path></svg>
+													<span onclick="del_collect_modal_show({{ collect.id }})">取消收藏</span>
+												</span>
+				    						</p>
+				    					</div>
+				    				{% endfor %}
+				    			</div>
+				    		</div>
+				    	  </div>
+				    	</div>
+				    {% else %}
+				    	<script type="text/javascript">
+				    		window.location.href = '/'
+				    	</script>
+				    {% endif %}
+				  </div>
+				</div>
+				
+			</div>
+			<div class="col-xs-2 user-info-container">
+				<h2>{{ user.get_nickname }}</h2>
+				<p>{{user.date_joined|date:'Y-m-d'}}</p>
+				<hr>
+				<p>投稿数 : {{ blog_count }}</p>
+				<hr>
+				<p><a href="{% url 'user_info' %}">编辑信息</a></p>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="del-reply-card-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form id="del-reply-card-form" action="{% url 'reply_card_del' %}" method="POST">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<h3 class="modal-title" id="myModalLabel">你确定删除该通知?</h3>
+						<div class="form_input">
+							{% csrf_token %}
+							{% for field in reply_card_del_from %}
+								{{ field }}
+							{% endfor %}
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="del-reply-card-btn">确定</button>
+						<button type="button" class="btn btn-primary" id="close-del-reply-card-modal-btn">取消</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="del-blog-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form id="del-blog-form" action="{% url 'reply_card_del' %}" method="POST">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<h3 class="modal-title" id="myModalLabel">你确定删除该稿件?</h3>
+						<div class="form_input">
+							{% csrf_token %}
+							{% for field in blog_del_form %}
+								{{ field }}
+							{% endfor %}
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="del-reply-card-btn">确定</button>
+						<button type="button" class="btn btn-primary" id="close-del-blog-modal-btn">取消</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="del-collect-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form id="del-collect-form" action="{% url 'reply_card_del' %}" method="POST">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+						<h3 class="modal-title" id="myModalLabel">你确定取消收藏?</h3>
+						<div class="form_input">
+							{% csrf_token %}
+							{% for field in collect_del_form %}
+								{{ field }}
+							{% endfor %}
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="del-collect-btn">确定</button>
+						<button type="button" class="btn btn-primary" id="close-del-collect-modal-btn">取消</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script_extend %}
+	<script type="text/javascript">
+		if ($('#msg-num').text()==0){
+			$('#msg-num').text('')
+		}
+		$("#message-num").click(function(){
+			$.ajax({
+				url: '{% url "clear_message_num" %}',
+				type: 'GET',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						$('#msg-num').text('')
+					}
+				}
+			});
+		})
+		function del_reply_card_moda_show(num){
+			$('#del-reply-card-modal').modal('show')
+			$('#id_num').val(num)
+		}
+		$('#close-del-reply-card-modal-btn').click(function(){
+			$('#del-reply-card-modal').modal('toggle')
+		})
+		$("#del-reply-card-form").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: '{% url "reply_card_del" %}',
+				type: 'POST',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						$('#del-reply-card-modal').modal('toggle')
+						num = $('#id_num').val()
+						$("#reply-card-"+num).remove()
+					}
+				}
+			});
+		});
+		function del_blog_modal_show (blog_id){
+			$('#del-blog-modal').modal('show')
+			$('#id_blog_id').val(blog_id)
+		}
+		$('#close-del-blog-modal-btn').click(function(){
+			$('#del-blog-modal').modal('toggle')
+		})
+		$("#del-blog-form").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: '{% url "blog_del" %}',
+				type: 'POST',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						$('#del-blog-modal').modal('toggle')
+						blog_id = $('#id_blog_id').val()
+						$("#blog-manage-" + blog_id).remove()
+					}
+				}
+			});
+		});
+		function del_collect_modal_show (collect_record_id){
+			$('#del-collect-modal').modal('show')
+			$('#id_collect_record_id').val(collect_record_id)
+		}
+		$('#close-del-collect-modal-btn').click(function(){
+			$('#del-collect-modal').modal('toggle')
+		})
+		$("#del-collect-form").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: '{% url "collect_del" %}',
+				type: 'POST',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						$('#del-collect-modal').modal('toggle')
+						collect_record_id = $('#id_collect_record_id').val()
+						$("#collect-info-" + collect_record_id).remove()
+					}
+				}
+			});
+		});
+		function request(paras){  
+			var url = location.href;   
+			var paraString = url.substring(url.indexOf("?")+1,url.length).split("&");   
+			var paraObj = {}   
+			for (i=0; j=paraString[i]; i++){   
+				paraObj[j.substring(0,j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=")+1,j.length);   
+			}   
+			var returnValue = paraObj[paras.toLowerCase()];   
+				if(typeof(returnValue)=="undefined"){   
+				return "";   
+			}else{   
+				return returnValue;  
+			}
+		}
+
+		var Info = request("Info");
+		if(Info){
+			$('#user-profile-tab li:eq(2) a').tab('show')
+			clear_message_num()
+			
+			
+		}
+		function clear_message_num(){
+			$.ajax({
+				url: '{% url "clear_message_num" %}',
+				type: 'GET',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						$('#msg-num').text('')
+						$('#remind_message').css('display','none')
+					}
+				}
+			});
+		}
+	</script>
+{% endblock %}

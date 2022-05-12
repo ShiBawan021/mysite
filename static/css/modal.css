@@ -1,0 +1,105 @@
+div.modal-content{
+	padding: 5em;
+	position: relative;
+}
+div.modal-content div.alert{
+	position: absolute;
+	right: 0.65em;
+	width: 15em;
+	display: none;
+}
+div.modal-content h3{
+	font-weight: bold;
+}
+div.modal-dialog{
+	width: 36em;
+	margin-top: 8em;
+}
+div.modal-header{
+	padding: 0;
+	border: none;
+}
+div.modal-body{
+	padding: 0;
+	border: none;
+}
+div.modal-body div.form_input input{
+	height: 3em;
+	margin-bottom: 1em;
+	box-shadow: 0 0 0!important;
+}
+div.modal-body div.modal-btn p input{
+	margin-right: 1em;
+}
+div.modal-body div.modal-btn p span{
+	vertical-align: 2px;
+}
+div.modal-body div.modal-btn button{
+	width: 100%;
+	height: 2.5em;
+	font-size: 1.2em;
+}
+div.modal-body p.register{
+	text-align: center;
+	margin-top: 1em;
+	margin-bottom: 0;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+div.modal-body p.register a{
+	color: #323232;
+}
+div.modal-footer{
+	padding: 0;
+	border: none;
+}
+div.modal-footer div.login-orther-hr{
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px 10px;
+	margin-bottom: 15px;
+}
+div.modal-footer div.login-orther-hr:before{
+	position: absolute;
+    top: 50%;
+    left: 0;
+    display: block;
+    content: "";
+    height: 1px;
+    width: 100%;
+    background: #eee;
+}
+div.modal-footer div.login-orther-hr>p{
+	position: relative;
+	max-width: 50%;
+	margin: 0;
+	padding: 10px 13px;
+	font-size: 13px;
+	color: #aaa;
+	text-align: center;
+	background: #fff;
+}
+
+div#forgot-password-modal div.modal-footer{
+	display: flex;
+	justify-content: flex-end
+}
+div#forgot-password-modal div.modal-footer button, div#change-password-modal div.modal-footer button{
+    width: 100%;
+    height: 3em;
+}
+div#del-reply-card-modal  div.modal-content{
+	padding: 3em!important;
+}
+div#del-reply-card-modal div.modal-footer{
+	margin-top: 1em;
+}
+div#del-reply-card-modal div.modal-footer button{
+	width: 20%;
+}
+div#del-reply-card-modal div.form_input input{
+	display: none;
+}
+

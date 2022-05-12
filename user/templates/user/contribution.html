@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/contribution.css' %}"/>
+	<link rel="stylesheet" href="{% static 'css/notify.css' %}" />
+	<!-- 富文本编辑ckeditor -->
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+	<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+	<!-- js -->
+{% endblock %}
+
+{% block title %}
+	投稿 | Contribution
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1">
+				<div class="contribution-container">
+					{% if user.is_authenticated %}
+						<form action="" method="POST" id="contribution-form">
+							<div class="contribution-ckeditor">
+								{% csrf_token %}
+								{% for field in contribution_form %}
+									{{ field }}
+								{% endfor %}
+							</div>
+							<div class="contribution-btn">
+								<p>
+									<span>Long may the sun shine !</span>
+								</p>
+								<button type="submit" >
+									投稿
+								</button>
+							</div>
+						</form>
+					{% else %}
+						<script type="text/javascript">
+							window.location.href = '/'
+						</script>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}
+
+{% block script_extend %}
+	<script type="text/javascript">
+		
+		
+		$('#id_blog_type').wrap('<div class="id_blog_type_containter ck-containter"/>');
+		$('.id_blog_type_containter').prepend($('<span class="blog-type-title title"/>'));
+		$('#id_blog_type').prepend($('<option selected id="none"/>'));
+		$('#none').text('----')
+		$('.blog-type-title').text('类型')
+		
+		$('#id_title').wrap('<div class="id_title_containter ck-containter"/>');
+		$('.id_title_containter').prepend($('<span class="blog-title title"/>'));
+		$('.blog-title').text('标题')
+		
+		$('.django-ckeditor-widget').wrap('<div class="id_text_containter ck-containter"/>');
+		$('.id_text_containter').prepend($('<span class="text-title title"/>'));
+		$('.text-title').text('内容')
+		
+		$('.ck-containter').wrap('<div class="hr"/>');
+		$('.hr').append($('<hr>'));
+	</script>
+{% endblock %}

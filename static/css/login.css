@@ -1,0 +1,16 @@
+ul.errorlist li{
+
+}
+form.login input{
+	margin-bottom: 2em;
+}
+div.login_btn input{
+	width: 100%;
+}
+div.panel-heading{
+	display: flex;
+	justify-content: space-between;
+}
+div.panel-heading a{
+	color: #337AB7;
+}

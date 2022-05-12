@@ -1,0 +1,174 @@
+body{
+	background-color:#f7f7f8 ;
+}
+div.container{
+	background: url(../img/1649780234284.jpg);
+	background-size: 100% 100%;
+	margin-bottom: 5em;
+	height: 100em;
+}
+img{
+	position: absolute;
+	width: 100%;
+	top: 0px;
+	z-index: -1;
+}
+div.close-form p{
+	position: absolute;
+	right: -12em;
+	font-size: 3em;
+	color: #333;
+	cursor: pointer;
+}
+div.close-form p a{
+	font-size: 3em;
+	color: #333;
+	text-decoration-line: none;
+}
+div.register-containter, div.login-containter{
+	width: 33em;
+	margin-left: 7.333333%;
+	margin-top: 9.5%;
+}
+div.panel-default{
+	position: relative;
+	border: 5px solid #020202;
+	border-right:none ;
+	border-radius: 3px;
+	height: 84em;
+}
+div.form-containter{
+	padding: 5em;
+}
+div.panel-body{
+	padding: 0;
+}
+div.register-title h3, div.login-title h3{
+	margin: 0;
+	font-weight: bold;
+}
+div.register-input input, div.login-input input{
+	margin-bottom: 1em;
+	height: 3em;
+	color: black;
+	box-shadow: 0 0 0!important;
+	background-color: #f6f6f6;
+	
+}
+div.register-input input:focus, div.login-input input:focus{
+	border: solid 1px #333!important
+}
+div.register-btn button, div.login-btn button{
+	width: 100%;
+	font-size: 1.2em;
+	height: 2.5em;
+	background-color: #3a3a3a;
+	border: #3a3a3a;
+}
+p.login-url{
+	text-align: center;
+	margin: 0;
+	margin-top: 1em;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+div.register-orther div.register-orther-hr, div.login-orther div.login-orther-hr{
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px 10px;
+	margin-bottom: 15px;
+}
+div.register-orther div.register-orther-hr:before, div.login-orther div.login-orther-hr:before{
+	position: absolute;
+    top: 50%;
+    left: 0;
+    display: block;
+    content: "";
+    height: 1px;
+    width: 100%;
+    background: #eee;
+}
+div.register-orther div.register-orther-hr>p, div.login-orther div.login-orther-hr>p{
+	position: relative;
+	max-width: 50%;
+	margin: 0;
+	padding: 10px 13px;
+	font-size: 13px;
+	color: #aaa;
+	text-align: center;
+	background: #fff;
+}
+div.orther-content{
+	padding: 2em;
+	position: absolute;
+	bottom: 1em;
+	left: 15em;
+}
+div.orther-content p{
+	text-align: center;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	
+}
+div.orther-content p a{
+	color: #333;
+	font-size: 8em;
+	font-weight: bold;
+	text-decoration-line: none;
+	text-shadow:16px 18px 1px #eae7e7;
+	/* animation-name: text-shadow-animation-reset;
+	animation-duration: 0.5s; */
+}
+/* @keyframes text-shadow-animation {
+	from {text-shadow:0px 0px 0px #eae7e7;}
+	to {text-shadow:16px 18px 1px #eae7e7;}
+}
+@keyframes text-shadow-animation-reset {
+	from {text-shadow:16px 18px 1px #eae7e7;}
+	to {text-shadow:0px 0px 0px #eae7e7;}
+} */
+/* div.orther-content p a:hover{
+	animation-name: text-shadow-animation;
+	animation-duration: 0.5s;
+	text-shadow:16px 18px 1px #eae7e7;
+} */
+div.orther-content p span{
+	margin-top: 1em;
+}
+div.error-msg{
+	display: none;
+}
+p#register_animate, p#login_animate{
+	cursor: pointer;
+}
+p#register_animate:hover, p#login_animate:hover{
+	text-decoration: underline;
+}
+div.verification_code_containter{
+	display: flex;
+	justify-content: center;
+}
+div.verification_code_containter{
+	margin-bottom:1em
+}
+div.verification_code_containter input{
+	width: 50%;
+	margin-bottom: 0;
+}
+div.verification_code_containter input:first-child{
+	border-top-right-radius:0px;
+	border-bottom-right-radius:0px;
+	border-right: #f6f6f6;
+}
+div.verification_code_containter input:last-child{
+	border: 1px solid #ccc!important;
+	border-left: 0px!important;
+	border-radius: 4px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius:0em;
+	color: #999999;
+}

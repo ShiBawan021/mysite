@@ -1,0 +1,42 @@
+ul.blog-types{
+	list-style-type: none;
+}
+div.blog-content{
+	
+	
+}
+
+div.blog:not(:last-child){
+	border-bottom: 1px solid #eee;
+	padding-bottom: 1em;
+	margin-bottom: 2em;
+}
+
+div.blog h3{
+   margin-top: 0em!important;
+}
+div.blog p.blog-info{
+	margin-bottom: 0;
+	display: flex;
+	align-items: center;
+}
+div.blog p.blog-info span{
+	margin-right: 0.5em;
+}
+div.blog p.blog-info span:last-child{
+	padding-top: 0.1em;
+}
+div.blog p.blog-info a{
+	margin-right: 0.5em;
+}
+
+div.blog-userinfo span{
+	margin-right: 1em;
+}
+nav.blog-paginator{
+	text-align: center;
+}
+a.blog-check-all{
+	float: right;
+	color: #337ab7;
+}

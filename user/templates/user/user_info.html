@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/user-info.css' %}"/>
+	<link rel="stylesheet" href="{% static 'css/notify.css' %}" />
+	<script src="http://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
+{% endblock %}
+
+{% block title %}
+	{{ user.profile.nickname }} | ToyBox
+{% endblock %}
+
+{% block content %}
+	<div class="container" id="container">
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1" >
+				<div class="user-info-container">
+					{% if user.is_authenticated %}
+						<h2>{{ user.username }}</h2>
+						<hr>
+						<ul>
+							<div id="msg"></div>
+							<li class="change-nickname-container">
+								<p><span class="title">昵称</span><span id="change-nickname-text">{{ user.get_nickname }}</span></p>
+								<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+							  修改昵称
+								</button>
+								<div class="collapse" id="collapseExample">
+									<div class="well">
+										<form action="" method="POST" class="change-nickname-form" id="change-nickname-form">
+											<div class="change-nickname-input">
+												{% csrf_token %}
+												{% for field in change_nickname_form %}
+													{{ field }}
+												{% endfor %}
+												<div class="change-nickname-btn">
+													<button type="submit" class="btn btn-primary change-nickname-btn">确定</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</li>
+							<li class="change-email-container">
+								<p><span class="title">邮箱</span><span class="email">{{ user.email }} </span></p>
+								<button type="button" id="change-email" class="btn btn-primary">更换邮箱</button>
+							</li>
+							<li class="change-password-container">
+								<p><span class="title">密码</span><span class="password">KbmG0v****************</span></p>
+								<button type="button" id="change-password" class="btn btn-primary">修改密码</button>
+							</li>
+							<li>上次登陆时间 : {{user.last_login|date:'Y-m-d'}}</li>
+						</ul>
+					{% else %}
+						<script type="text/javascript">
+							window.location.href = '/'
+						</script>
+					{% endif %}
+				</div>
+			</div> 
+		</div>
+	</div>
+	<div class="modal fade" id="change-email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div id="msg"></div>
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h3 class="modal-title" id="myModalLabel">更换邮箱</h3>
+					<hr>
+				</div>
+				<form id="change-email-form" action="" method="POST">
+					<div class="modal-body">
+						<div class="form_input">
+							{% csrf_token %}
+							{% for field in change_email_form %}
+								{{ field }}
+							{% endfor %}
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="send_change_email_code">获取验证码</button>
+						<button type="submit" class="btn btn-primary">更换邮箱</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="change-password-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h3 class="modal-title" id="myModalLabel">修改密码</h3>
+					<hr>
+				</div>
+				<form id="change-password-form" action="" method="POST">
+					<div class="modal-body">
+						<div class="form_input">
+							{% csrf_token %}
+							{% for field in change_password_form %}
+								{{ field }}
+							{% endfor %}
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">修改密码</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script_extend %}
+	<script>
+		$("#change-nickname-form").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: '{% url "change_nickname" %}',
+				type: 'POST',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						var options = {
+						    message: '修改成功 !',
+						    color: 'success',
+						    timeout: '3000',
+						};
+						notify(options);
+						$("#change-nickname-text").text(data['nickname'])
+						$("#nickname").text(data['nickname'])
+						$("#user-nickname").text(data['nickname'])
+						$('#collapseExample').collapse('hide')
+					}else{
+						var options = {
+						    message: '昵称重复 !',
+						    color: 'danger',
+						    timeout: '3000',
+						};
+						notify(options);
+					}
+				}
+			});
+		});
+		$("#change-email").click(function(){
+			$('#change-email-modal').modal('show')
+		})
+		$("#change-password").click(function(){
+			$('#change-password-modal').modal('show')
+		})
+		
+		$("#send_change_email_code").click(function(){
+			var email = $("#id_email").val();
+			if(email==""){
+				var options = {
+				    message: '邮箱不能为空 !',
+				    color: 'danger',
+				    timeout: '3000',
+				};
+				notify(options);
+				return false
+			}
+			$.ajax({
+				url: '{% url "send_verification_code" %}',
+				type: 'GET',
+				data: {
+					'email': email,
+					'send_for': 'change_email_code'
+				},
+				cache: false,
+				success: function(data){
+					if(data['status']=='ERROR'){
+						alert("data['status']")
+					}
+				}
+			});
+			// send_code按钮变灰
+			$(this).addClass('disabled');
+			$(this).attr('disabled', true);
+			var time = 30;
+			$(this).text(time + 's');
+			var interval = setInterval(() => {
+			    if(time <= 0){
+			        clearInterval(interval);
+			        $(this).removeClass('disabled');
+			        $(this).attr('disabled', false);
+			        $(this).text('发送验证码');
+			        return false;
+			    }
+			
+			    time --;
+			    $(this).text(time + 's');
+			}, 1000);
+		})
+		$("#send_change_password_code").click(function(){
+			var email = $("#id_change_password_email").val();
+			if(email==""){
+				var options = {
+				    message: '邮箱不能为空 !',
+				    color: 'danger',
+				    timeout: '3000',
+				};
+				notify(options);
+				return false
+			}
+			$.ajax({
+				url: '{% url "send_verification_code" %}',
+				type: 'GET',
+				data: {
+					'email': email,
+					'send_for': 'change_password_code'
+				},
+				cache: false,
+				success: function(data){
+					if(data['status']=='ERROR'){
+						alert("data['status']")
+					}
+				}
+			});
+			// send_code按钮变灰
+			$(this).addClass('disabled');
+			$(this).attr('disabled', true);
+			var time = 30;
+			$(this).text(time + 's');
+			var interval = setInterval(() => {
+			    if(time <= 0){
+			        clearInterval(interval);
+			        $(this).removeClass('disabled');
+			        $(this).attr('disabled', false);
+			        $(this).text('发送验证码');
+			        return false;
+			    }
+			
+			    time --;
+			    $(this).text(time + 's');
+			}, 1000);
+		})
+		$("#change-email-form").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: '{% url "change_email" %}',
+				type: 'POST',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						window.location.reload()
+					}else{
+						if(data['msg']['__all__']=='401'){
+							var options = {
+							    message: '验证码错误!或邮箱不一致!',
+							    color: 'danger',
+							    timeout: '3000',
+							};
+							notify(options);
+							console.log(data['msg'])
+							
+						}
+						if(data['msg']['email']=='402'){
+							var options = {
+							    message: '邮箱已存在 !',
+							    color: 'danger',
+							    timeout: '3000',
+							};
+							notify(options);
+						}
+						
+						console.log(data['msg'])
+					}
+					
+				}
+			});
+		});
+		$("#change-password-form").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: '{% url "change_password" %}',
+				type: 'POST',
+				data: $(this).serialize(),
+				cache: false,
+				success: function(data){
+					if(data['status']=='SUCCESS'){
+						window.location.reload()
+					}else{
+						if(data['msg']['old_password']){
+							var options = {
+							    message: data['msg']['old_password'],
+							    color: 'danger',
+							    timeout: '3000',
+							};
+							notify(options);
+							console.log(data['msg'])
+							return false
+						}
+						if(data['msg']['__all__']){
+							var options = {
+							    message: data['msg']['__all__'],
+							    color: 'danger',
+							    timeout: '3000',
+							};
+							notify(options);
+						}
+						console.log(data['msg'])
+					}
+				}
+			});
+		});
+	</script>
+	<script src="{% static 'js/alert/notify.js' %}"></script>
+{% endblock %}

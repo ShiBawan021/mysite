@@ -1,0 +1,152 @@
+body{
+	background-color: #f7f7f8!important;;
+}
+p#reply_card_id{
+	display: none;
+}
+div.user-profile-container div.panel-default{
+	background-color: white;
+	border-radius: 5px;
+	padding: 2em;
+	border: none;
+}
+ul.user-profile-tab li.active{
+	border-bottom: 2px solid black;
+}
+ul.user-profile-tab li a{
+	font-weight: bold;
+	font-size: 1.3em;
+	color: #555
+
+}
+ul.user-profile-tab li a:hover{
+	background-color: white!important;
+	border: 1px solid white;
+	border-bottom: 1px solid #ddd;
+}
+ul.user-profile-tab>li.active>a{
+	border: none!important;
+	font-weight: bold;
+	color: black!important
+}
+div.user-info-container{
+	text-align: center;
+	background-color: white;
+	border-radius: 5px;
+	padding: 2em;
+}
+div.user-info-container a{
+	padding: 0.5em 1em 0.5em 1em;
+	background-color: #f7f7f8;
+	border-radius: 15px;
+	color: #000000;
+	text-decoration: none;
+}
+div.user-info-container a:hover{
+	background-color: #eeeeee;
+}
+div.tab-content{
+	padding: 1em;
+}
+div.blog-info{
+	padding: 1em;
+	background-color: #f7f7f8;
+	margin-bottom: 1em;
+	border-radius: 5px;
+}
+div.blog-info p {
+	margin-bottom: 0;
+	display: flex;
+	align-items: center;
+}
+div.blog-info p a{
+	font-size: 1.2em;
+	margin-right: 1em;
+}
+div.blog-info span.created-time{
+	margin-right: 1em;
+}
+div.blog-info span.svg{
+	margin-right: 1em;
+	padding: 0.2em 0.5em 0.2em 0.5em;
+}
+div.blog-info span svg{
+	width: 1.2em;
+	height: 1.2em;
+	vertical-align: -3px;
+}
+div.blog-manage{
+	padding: 1em;
+	background-color: #f7f7f8;
+	margin-bottom: 1em;
+	border-radius: 5px;
+}
+div.blog-manage p{
+	margin-bottom: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+div.blog-manage p a{
+	font-size: 1.2em;
+}
+div.reply-card{
+	padding: 1em;
+	background-color: #f7f7f8;
+	margin-bottom: 1em;
+	border-radius: 5px;
+}
+div.reply-card a.comment-user{
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+	margin-right: 1em;
+}
+div.reply-card span{
+	margin-right: 1em;
+}
+div.reply-card span:last-child{
+	cursor: pointer;
+}
+div.reply-card svg{
+	width: 1.2em;
+	height: 1.2em;
+	vertical-align: -3px;
+}
+div.collect-info{
+	padding: 1em;
+	background-color: #f7f7f8;
+	margin-bottom: 1em;
+	border-radius: 5px;
+	
+}
+div.collect-info p{
+	margin-bottom: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+div.collect-info span.collect-del-btn{
+	cursor: pointer;
+	background-color:#d9534f ;
+	color: white;
+	padding: 0.2em 0.5em 0.2em 0.5em;
+	border-radius: 5px;
+	font-size: 1.2em;
+}
+div.collect-info span.collect-del-btn:hover{
+	background-color: #d43f3a;
+}
+div.collect-info svg{
+	width: 1.2em;
+	height: 1.2em;
+	vertical-align: -4px;
+	fill: white;
+}
+div.collect-info a{
+	font-size: 1.2em;
+}
+nav.blog-paginator{
+	text-align: center;
+}

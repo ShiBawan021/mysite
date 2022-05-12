@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{% block title %}{% endblock %}</title>
+		{% load static %}
+		
+		<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.4.1/css/bootstrap.min.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/notify.css' %}" />
+		{% block header_extends %}{% endblock %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+	</head>
+	<body >
+		{% block nav %}
+			<nav class="navbar navbar-default navbar-fixed-top header">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="{% url 'home' %}" id="web-title">ToyBox</a>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="{% block nav_home_active %}{% endblock %}"><a href="{% url 'home' %}">首页</a></li>
+							<li class="{% block nav_blog_active %}{% endblock %}" ><a href="{% url 'Blog_list' %}">博客</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right " id="user-infor-container">
+							{% if not user.is_authenticated %}
+								<li><a><span id="login-register-btn">登录/注册</span></a></li>
+							{% else %}
+								<li>
+									<a  href="{% url 'contribution' %}?from={{ request.get_full_path }}">
+										<span id="contribution-btn">投稿 +</span>
+									</a>
+								</li>					
+								<li class="dropdown">
+								    <a href="#" class="dropdown-toggle" id="user-nickname" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% if user.has_nickname %}{{ user.get_nickname }}{% else %}{{user.username}}{% endif %}</a>
+								    <ul class="dropdown-menu">
+										<li><a href="{% url 'user_profile' %}">个人中心</a></li>
+										{% if user.is_staff or user.is_supersuer %}
+											<li><a href="{% url 'admin:index' %}">后台管理</a></li>
+										{% endif %}
+										<li><a href="{% url 'logout' %}?from={{ request.get_full_path }}">退出</a></li>
+								    </ul>
+								</li>
+								<li class="message-container">
+									<a href="{% url 'user_profile' %}?Info=true">
+										{% if user.is_authenticated %}
+											<span id="remind_message">{{remind_message.num}}</span>
+										{% else %}
+											<span></span>
+										{% endif %}
+										<span>
+											<svg t="1652339600458" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2045" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><defs></defs><path d="M910.464 901.632 113.536 901.632c-46.272 0-83.904-37.504-83.904-83.84L29.632 230.656c0-46.336 37.568-83.904 83.904-83.904l796.928 0c46.272 0 83.84 37.568 83.84 83.904l0 587.2C994.24 864.128 956.672 901.632 910.464 901.632L910.464 901.632zM952.32 230.656c0-23.168-18.752-41.92-41.856-41.92L113.536 188.736c-23.168 0-41.92 18.752-41.92 41.92l0 587.2c0 23.104 18.752 41.856 41.92 41.856l796.928 0c23.104 0 41.856-18.752 41.856-41.856L952.32 230.656 952.32 230.656zM785.536 391.552c-1.152 1.088-2.432 1.664-3.648 2.368L571.264 604.544c-32.768 32.768-85.824 32.768-118.656 0L241.344 393.216c-0.064 0-0.128-0.064-0.192-0.128L181.76 333.76c-8.128-8.192-8.128-21.44 0-29.632 8.128-8.192 21.44-8.192 29.632 0L218.368 311.04 218.368 310.976l263.936 263.936c16.448 16.32 42.944 16.32 59.328 0l210.944-211.008c0.704-1.024 1.28-2.304 2.176-3.264l61.568-61.568c8.576-8.448 22.4-8.448 30.848 0 8.512 8.512 8.512 22.336 0 30.784L785.536 391.552 785.536 391.552zM279.936 621.056c8.128-8.128 21.376-8.128 29.568 0 8.256 8.192 8.256 21.504 0 29.696l-97.6 97.728c-8.192 8.064-21.44 8.064-29.696 0-8.192-8.32-8.192-21.568 0-29.824L279.936 621.056 279.936 621.056zM738.432 614.144l102.976 102.976c8.512 8.576 8.512 22.528 0 30.976-8.64 8.576-22.464 8.576-30.976 0l-102.976-103.04c-8.576-8.448-8.576-22.4 0-30.912C716.032 605.632 729.856 605.632 738.432 614.144L738.432 614.144z" p-id="2046"></path></svg>
+										</span>
+									</a>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</nav>
+			
+		{% endblock %}
+		{% block content %}{% endblock %}
+		<div id="msg"></div>
+			<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h3 class="modal-title" id="myModalLabel">登录</h3>
+							<hr>
+						</div>
+						<form id="login-modal-form" action="" method="POST" class="login">
+							<div class="modal-body">
+								<div class="form_input">
+									{% csrf_token %}
+									{% for field in login_modal_form %}
+										{{ field }}
+									{% endfor %}
+								</div>
+								<div class="modal-btn" >
+									<p><input type="checkbox" name="" id="login-keep" value="" /><span>保持登录</span><a class="pull-right"  id="forgot-password-modal-show-btn">忘记密码</a></p>
+									<button type="submit" class="btn btn-primary">登录</button>
+								</div>
+								<p class="register"><a href="{% url 'register' %}?from={{ request.get_full_path }}">注册账号</a></p>
+								<p id="login_modal_tip"></p>
+							</div>
+						</form>
+						<div class="modal-footer">
+							<div class="login-orther-hr"><p>其他登陆方式</p></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="forgot-password-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h3 class="modal-title" id="myModalLabel">忘记密码</h3>
+							<hr>
+						</div>
+						<form id="forgot-password-form" action="" method="POST">
+							<div class="modal-body">
+								<div class="form_input">
+									{% csrf_token %}
+									{% for field in forgot_password_form %}
+										{{ field }}
+									{% endfor %}
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id="send_forgot_password_code">发送验证码</button>
+								<button type="submit" class="btn btn-primary">生成新密码</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<script type="text/javascript" src="{% static 'jquery-1.12.4.min.js' %}"></script>
+			<script type="text/javascript" src="{% static 'bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+			
+		{% block script_extend %}{% endblock %}
+		<script type="text/javascript">
+			
+			$("#login-register-btn").click(function(){
+				$('#login-modal').modal('show')
+			})
+			$("#login-modal-form").submit(function(event){
+				event.preventDefault();
+				$.ajax({
+					url: '{% url "login_for_modal" %}',
+					type: 'POST',
+					data: $(this).serialize(),
+					cache: false,
+					success: function(data){
+						if(data['status']=='SUCCESS'){
+							window.location.reload()
+						}else{
+							var options = {
+							    message: '用户名或密码错误 !',
+							    color: 'danger',
+							    timeout: '3000',
+							};
+							notify(options);
+						}
+					}
+				});
+			});
+			$("#user-login").click(function(){
+				$('#login-modal').modal('show')
+			})
+			$("#forgot-password-modal-show-btn").click(function(){
+				$('#login-modal').modal('toggle')
+				$('#forgot-password-modal').modal('show')
+			})
+			$("#send_forgot_password_code").click(function(){
+				var email = $("#id_email").val();
+				if(email==""){
+					var options = {
+					    message: '邮箱不能为空 !',
+					    color: 'danger',
+					    timeout: '3000',
+					};
+					notify(options);
+					return false
+				}
+				$.ajax({
+					url: '{% url "send_verification_code" %}',
+					type: 'GET',
+					data: {
+						'email': email,
+						'send_for': 'forgot_password_code'
+					},
+					cache: false,
+					success: function(data){
+						if(data['status']=='ERROR'){
+							alert("data['status']")
+						}
+					}
+				});
+				// send_code按钮变灰
+				$(this).addClass('disabled');
+				$(this).attr('disabled', true);
+				var time = 30;
+				$(this).text(time + 's');
+				var interval = setInterval(() => {
+				    if(time <= 0){
+				        clearInterval(interval);
+				        $(this).removeClass('disabled');
+				        $(this).attr('disabled', false);
+				        $(this).text('发送验证码');
+				        return false;
+				    }
+				
+				    time --;
+				    $(this).text(time + 's');
+				}, 1000);
+			})
+			$("#forgot-password-form").submit(function(event){
+				event.preventDefault();
+				$.ajax({
+					url: '{% url "forgot_password" %}',
+					type: 'POST',
+					data: $(this).serialize(),
+					cache: false,
+					success: function(data){
+						if(data['status']=='SUCCESS'){
+							window.location.reload()
+						}else{
+							var options = {
+							    message: '邮箱不存在 !',
+							    color: 'danger',
+							    timeout: '3000',
+							};
+							notify(options);
+						}
+					}
+				});
+			});
+			if($('#remind_message').text()!='0'){
+				$('#remind_message').css('display','block')
+			}else{
+				$('#remind_message').css('display','none')
+			}
+			$("#remind_message").click(function(){
+				$.ajax({
+					url: '{% url "clear_message_num" %}',
+					type: 'GET',
+					data: $(this).serialize(),
+					cache: false,
+					success: function(data){
+						if(data['status']=='SUCCESS'){
+							$('#msg-num').text('')
+						}
+					}
+				});
+			})
+		</script>
+		<script src="{% static 'js/alert/notify.js' %}"></script>
+	</body>
+</html>

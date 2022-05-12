@@ -1,0 +1,11 @@
+{% extends 'blog/blog_list.html' %}
+
+{% load static %}
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}" />
+{% endblock %}
+
+{% block blog_list_title %}
+	日期归档
+	<a href="{% url 'Blog_list' %}" class="blog-check-all">查看全部博客</a>
+{% endblock %}

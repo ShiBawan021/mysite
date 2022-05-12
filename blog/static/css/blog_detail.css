@@ -1,0 +1,238 @@
+body{
+	background-color: #f7f7f8!important;
+}
+input{
+	outline:none;
+	border-radius: 0.3em;
+}
+h1{
+	margin: 0;
+	margin-bottom: 0.5em;
+}
+div.content{
+	background-color: white;
+	/* box-shadow: 0.5px 0.5px 10px 0.5px #eae7e7; */
+	box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
+	border-radius: 2px;
+	border: 1px solid white;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+div.blog-userinfo{
+	margin-bottom: 1em;
+}
+div.blog-userinfo span{
+	margin: 0;
+}
+div.blog-userinfo span.author-time-type span.time{
+	color: #8e8e93;
+}
+div.blog-userinfo span.author-time-type span.tag{
+	margin-right: 0.5em;
+}
+div.blog-userinfo p{
+	display: flex;
+	justify-content: flex-start;
+}
+div.blog-userinfo p span{
+	display: block;
+	width: 5em;
+	background-color: #f7f7f8;
+	display: flex;
+	justify-content: space-between;
+	padding: 0.3em 0.5em 0.3em 0.5em;
+	border-radius: 5px;
+	margin-top: 1em;
+	margin-right: 1em;
+}
+div.blog-userinfo p span img{
+	height: 1.5em;
+}
+div.blog-more{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1em;
+}
+div.blog-more-np p:last-child{
+	margin-bottom:0 ;
+}
+div.like-collect-container{
+	display: flex;
+	align-items: center;
+}
+div.like, div.like-comment, div.hate-comment, div.like-comment-reply, div.collect svg{
+	cursor: pointer;
+}
+div.like, div.collect{
+	fill: #99a2aa;
+}
+div.like svg{
+	margin-right: 1em;
+}
+div.like svg, div.collect svg{
+	height:40px;
+	width: 40px;
+}
+div.like-comment, div.hate-comment, div.like-comment-reply{
+	display: inline-block;
+	margin-right: 1em;
+	fill: #99a2aa;
+}
+div.like-comment-reply {
+	margin-left: 1em;
+}
+div.like-comment-reply{
+	color: #99a2aa;
+}
+div.like-comment svg, div.hate-comment svg, div.like-comment-reply svg{
+	width: 1.2em;
+	height: 1.2em;
+	vertical-align: -2px;
+}
+@keyframes like-animation {
+	from {fill: #99a2aa;}
+	to {fill: #337AB7;}
+}
+@keyframes like-animation-reset {
+	from {fill: #337AB7;}
+	to {fill: #99a2aa;}
+}
+@keyframes collect-animation {
+	from {fill: #99a2aa;}
+	to {fill: #d9534f;}
+}
+@keyframes collect-animation-reset {
+	from {fill: #d9534f;}
+	to {fill: #99a2aa;}
+}
+div.like, div.like-comment, div.hate-comment, div.like-comment-reply{
+	animation-name: like-animation-reset;
+	animation-duration: 0.5s;
+}
+div.collect{
+	animation-name: collect-animation-reset;
+	animation-duration: 0.5s;
+}
+div.like:hover, div.like-comment:hover, div.hate-comment:hover, div.like-comment-reply:hover{
+	fill: #337AB7;
+	animation-name: like-animation;
+	animation-duration: 0.5s;
+}
+div.collect:hover{
+	fill: #d9534f;
+	animation-name: collect-animation;
+	animation-duration: 0.5s;
+}
+div.like .active, div.like-comment .active, div.hate-comment .active, div.like-comment-reply .active. div.collect .active{
+	fill: #337AB7;
+	animation-name: like-animation;
+	animation-duration: 0s;
+}
+div.collect .active{
+	fill: #d9534f;
+	animation-name: collect-animation;
+	animation-duration: 0s;
+}
+div.blog-content p{
+	word-break: break-all;
+	font-size: 16px;
+	letter-spacing: 0.1px;
+}
+div.blog-content img{
+	width: 100%!important;
+}
+div.django-ckeditor-widget{
+	width: 100%;
+}
+div.textarea-btn{
+	display: flex;
+	justify-content: space-between;
+}
+div.textarea-btn h3{
+	margin: 0;
+	font-size: 31px;
+}
+p#comment_error{
+	margin-top: 1em;
+}
+div.reply{
+	padding: 1em;
+	background-color: #f7f7f8;
+	border-radius: 5px;
+	margin-top: 1em;
+}
+div.reply p.reply-user{
+	display: flex;
+	align-items: center;
+}
+div.reply p.reply-user span{
+	transform: scale(0.8);
+	color: #99a2aa;
+}
+div.reply img.reply-svg{
+	margin-left: 0.4em;
+	width: 0.8em;
+	transform: rotate(90deg);
+}
+div.comment p.comment-user-time a{
+	font-weight: bold;
+	font-size: 1.1em;
+}
+div.comment-time-like-reply span.comment-time{
+	color: #99a2aa;
+}
+p.comment-user-time span.comment-time{
+	color: #99a2aa;
+	font-size: 0.5em;
+}
+div.comment-container{
+	background-color: white;
+	box-shadow: 0 1px 3px rgb(18 18 18 / 20%);
+	border-radius: 2px;
+	border: 1px solid white;
+	padding: 1em;
+}
+div.comment:last-child hr{
+	display: none; 
+}
+div.comment_list p{
+	margin: 0.5em 0 0.5em 0;
+}
+div.comment_list p.comment-time{
+	color: #99a2aa;
+}
+div.login-register-btn a{
+	margin-right: 1em;
+	border-radius: 0px!important;
+	box-shadow: 6.5px 7px 1px 0.5px #eae7e7;
+}
+div.login-register-btn hr{
+	margin-top: 1em;
+}
+div.orther-blog{
+	background-color: white;
+	box-shadow: 0 1px 3px rgb(18 18 18 / 10%);
+	border-radius: 2px;
+	border: 1px solid white;
+	padding: 1em;
+	
+}
+div.orther-blog h3{
+	margin: 0;
+	
+}
+div.orther-blog ul{
+	margin: 0;
+}
+div.orther-blog ul li{
+	padding: 0.3em 0.5em 0.3em 0.5em;
+	font-size: 1.2em;
+	margin-bottom: 1em;
+	background-color: #f7f7f8;
+	border-radius: 5px;
+}
+div.orther-blog ul li:last-child{
+	margin-bottom: 0;
+}
+

@@ -1,0 +1,75 @@
+@charset "utf-8";
+*{
+
+	margin: 0;
+	padding: 0;
+}
+a{
+	text-decoration: none;	
+}
+body{
+	margin-top: 70px!important;
+}
+ul{
+	list-style-type: none!important;
+}
+nav.header{
+	box-shadow: 0.5px 0.5px 5px #888888;
+}
+nav.navbar-right{
+	margin-right: 0!important;
+}
+span#login-register-btn{
+	cursor: pointer;
+	background-color: #337ab7;
+	padding: 0.6em;
+	border-radius: 5px;
+	color: white;
+}
+span#login-register-btn:hover{
+	background-color: #2e6da4;
+}
+span#contribution-btn{
+	cursor: pointer;
+	background-color: #d9534f;
+	padding: 0.5em 1.4em 0.5em 1.4em;
+	border-radius:4px;
+	color: white;
+}
+span#contribution-btn:hover{
+	background-color: #d43f3a;
+}
+a#web-title{
+	font-weight: bold;
+	color: #337ab7;
+}
+a#user-nickname{
+	font-weight: bold;
+	font-size: 1.2em;
+}
+li.message-container{
+	
+}
+li.message-container a{
+	padding:0!important;
+	padding-right:2em!important;
+	padding-left: 1em!important;
+	margin-top: 0.8em!important;
+	position: relative;
+}
+li.message-container svg{
+	width: 1.8em;
+	height: 1.8em;
+}
+li.message-container span:first-child{
+	position: absolute;
+	background-color: #d9534f;
+	width: 10px;
+	height: 10px;
+	display: block;
+	right: 25px;
+	top: 0px;
+	border-radius: 5px;
+	display: none;
+	font-size: 0;
+}

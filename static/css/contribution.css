@@ -1,0 +1,53 @@
+div.contribution-container{
+	margin-bottom: 2em;
+}
+div.ck-containter{
+	display: flex;
+	justify-content: flex-start;
+
+}
+span.title{
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-right: 5em;
+}
+div.id_blog_type_containter select{
+	padding: 0.3em;
+	border: 1px solid #ccc;
+	border: none;
+	outline: none;
+}
+div.id_title_containter input{
+	width: 20em;
+	border: none!important;
+	outline: none;
+}
+div.contribution-btn{
+	background-color: #f7f7f8;
+	border-radius: 5px;
+	padding: 1em;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+div.contribution-btn p{
+	width: 100%;
+	margin-bottom: 0;
+	text-align: center;
+}
+div.contribution-btn span{
+	font-weight: bold;
+	font-size: 1.5em;
+}
+div.contribution-btn button{
+	width: 8em;
+	height: 3em;
+	background-color:#d9534f ;
+	border: none;
+	border-radius: 5px;
+	color: white;
+}
+div.contribution-btn button:hover{
+	background-color: #d43f3a;
+}
+
