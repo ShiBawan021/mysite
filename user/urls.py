@@ -32,12 +32,12 @@ urlpatterns = [
     path('change_email/', views.change_email, name='change_email'),
     path('change_password/', views.change_password, name='change_password'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
-    path('user_profile', views.user_profile, name='user_profile'),
-    path('reply_card_del', views.reply_card_del, name='reply_card_del'),
-    path('reply_url', views.reply_url, name='reply_url'),
-    path('blog_del', views.blog_del, name='blog_del'),
-    path('collect_del', views.collect_del, name='collect_del'),
-    path('clear_message_num', views.clear_message_num, name='clear_message_num'),
+    path('user_profile/', views.user_profile, name='user_profile'),
+    path('reply_card_del/', views.reply_card_del, name='reply_card_del'),
+    path('reply_url/', views.reply_url, name='reply_url'),
+    path('blog_del/', views.blog_del, name='blog_del'),
+    path('collect_del/', views.collect_del, name='collect_del'),
+    path('clear_message_num/', views.clear_message_num, name='clear_message_num'),
     path('send_verification_code/', views.send_verification_code, name='send_verification_code'),
 
 ]
