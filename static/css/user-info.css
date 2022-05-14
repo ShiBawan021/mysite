@@ -8,7 +8,6 @@ div.user-info-container{
 	background-color: white;
 	border-radius: 5px;
 	padding: 5em;
-	
 }
 div.change-nickname-input{
 	display: flex;
@@ -37,10 +36,6 @@ li.change-nickname-container, li.change-email-container, li.change-password-cont
 	align-items: center;
 	margin-bottom: 1em;
 }
-
 li:last-child{
 	margin-bottom: 0;
-}
-div.col-xs-10{
-	background-color: #f7f7f8!important;
 }
