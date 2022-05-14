@@ -86,6 +86,54 @@
 	
 {% block script_extend %}
 	<script>
+		$('#id_verification_code').wrap('<div class="verification_code_containter"/>');
+		$('.verification_code_containter').append($('<input class="verification_code_btn"/>'));
+		$(".verification_code_btn").attr("type","button");
+		$(".verification_code_btn").attr("value","发送验证码");
+		
+		$(".verification_code_btn").click(function(){
+			var email = $("#email-control").val();
+			if(email==""){
+				var options = {
+				    message: '邮箱不能为空 !',
+				    color: 'danger',
+				    timeout: '3000',
+				};
+				notify(options);
+				return false
+			}
+			$.ajax({
+				url: '{% url "send_verification_code" %}',
+				type: 'GET',
+				data: {
+					'email': email,
+					'send_for': 'register_code'
+				},
+				cache: false,
+				success: function(data){
+					if(data['status']=='ERROR'){
+						alert("data['status']")
+					}
+				}
+			});
+			// send_code按钮变灰
+			$(this).addClass('disabled');
+			$(this).attr('disabled', true);
+			var time = 30;
+			$(this).attr(time + 's');
+			var interval = setInterval(() => {
+			    if(time <= 0){
+			        clearInterval(interval);
+			        $(this).removeClass('disabled');
+			        $(this).attr('disabled', false);
+			        $(this).attr("value", '发送验证码');
+			        return false;
+			    }
+			
+			    time --;
+				$(this).attr("value", time + 's');
+			}, 1000);
+		});
 		$("#login-form").submit(function(event){
 			event.preventDefault();
 			$.ajax({
@@ -140,9 +188,9 @@
 							$('.register-input #error-msg').eq(1).text('')
 						}
 						if(data['msg']['password_again']=='402'){
-							$('.register-input #error-msg').eq(3).text('两次输入的密码不一致')
+							$('.register-input #error-msg').eq(4).text('两次输入的密码不一致')
 						}else{
-							$('.register-input #error-msg').eq(3).text('')
+							$('.register-input #error-msg').eq(4).text('')
 						}
 						console.log(data['msg'])
 					}
@@ -166,54 +214,7 @@
 			}
 		}
 		
-		$('#id_verification_code').wrap('<div class="verification_code_containter"/>');
-		$('.verification_code_containter').append($('<input class="verification_code_btn"/>'));
-		$(".verification_code_btn").attr("type","button");
-		$(".verification_code_btn").attr("value","发送验证码");
 		
-		$(".verification_code_btn").click(function(){
-			var email = $("#email-control").val();
-			if(email==""){
-				var options = {
-				    message: '邮箱不能为空 !',
-				    color: 'danger',
-				    timeout: '3000',
-				};
-				notify(options);
-				return false
-			}
-			$.ajax({
-				url: '{% url "send_verification_code" %}',
-				type: 'GET',
-				data: {
-					'email': email,
-					'send_for': 'register_code'
-				},
-				cache: false,
-				success: function(data){
-					if(data['status']=='ERROR'){
-						alert("data['status']")
-					}
-				}
-			});
-			// send_code按钮变灰
-			$(this).addClass('disabled');
-			$(this).attr('disabled', true);
-			var time = 30;
-			$(this).attr(time + 's');
-			var interval = setInterval(() => {
-			    if(time <= 0){
-			        clearInterval(interval);
-			        $(this).removeClass('disabled');
-			        $(this).attr('disabled', false);
-			        $(this).attr("value", '发送验证码');
-			        return false;
-			    }
-			
-			    time --;
-				$(this).attr("value", time + 's');
-			}, 1000);
-		});
 	</script>
 	<script src="{% static 'js/alert/notify.js' %}"></script>
 {% endblock %}

@@ -4,12 +4,12 @@
 {% load comment_tags %}
 {% load like_tags %}
 {% load collect_tags %}
-
+	
+	<link rel="stylesheet" href="{% static 'css/notify.css' %}" />
 {% block header_extends %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/blog_detail.css' %}"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}"/>
-	<link rel="stylesheet" href="{% static 'css/notify.css' %}" />
 	<!-- 富文本编辑ckeditor -->
 	<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
 	<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
@@ -385,7 +385,6 @@
 			})
 		}
 	</script>
-	<script src="{% static 'js/alert/notify.js' %}"></script>
 {% endblock %}
 
 	

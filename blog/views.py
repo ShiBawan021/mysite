@@ -3,9 +3,8 @@ from .models import Blog, BlogType
 from django.core.paginator import Paginator
 from django.conf import settings
 from django.db.models import Count
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from read_statistics.utils import read_statistics_once_read, get_orther_blog
-from reply_card.models import ReplyCard, MessageNum
 from .forms import EditForm, ContributionForm
 
 
@@ -41,10 +40,10 @@ def get_blog_list_common_data(request,blogs_all_list):
     #     print(blog_types_list)
 
     #统计日期归档各日期博客数量
-    blog_dates = Blog.objects.dates('created_time','month',order='DESC')
+    blog_dates = Blog.objects.dates('created_time', 'month', order='DESC')
     blog_dates_dict = {}
     for blog_date in blog_dates:
-        blog_dates_count = Blog.objects.filter(created_time__year=blog_date.year,created_time__month=blog_date.month).count()
+        blog_dates_count = Blog.objects.filter(created_time__year=blog_date.year, created_time__month=blog_date.month).count()
         blog_dates_dict[blog_date] = blog_dates_count
 
     context = {}
@@ -80,16 +79,16 @@ def blog_detail(request,blog_pk):
     return response
 
 def blogs_with_type(request,blog_type_pk):
-    blog_type=get_object_or_404(BlogType,pk=blog_type_pk)
+    blog_type = get_object_or_404(BlogType, pk=blog_type_pk)
     blogs_all_list = Blog.objects.filter(blog_type=blog_type)
-    context = get_blog_list_common_data(request,blogs_all_list)
+    context = get_blog_list_common_data(request, blogs_all_list)
     context['blog_type'] = blog_type
-    return render(request,'blog/blogs_with_type.html',context)
+    return render(request, 'blog/blogs_with_type.html', context)
 
 def blogs_with_dates(request,year,month):
-    blogs_all_list=Blog.objects.filter(created_time__year=year, created_time__month=month)
-    context=get_blog_list_common_data(request,blogs_all_list)
-    return render(request,'blog/blogs_with_dates.html',context)
+    blogs_all_list = Blog.objects.filter(created_time__year=year, created_time__month=month)
+    context = get_blog_list_common_data(request, blogs_all_list)
+    return render(request, 'blog/blogs_with_dates.html', context)
 
 def edit_blog(request):
     blog_id = request.GET.get('from', '')

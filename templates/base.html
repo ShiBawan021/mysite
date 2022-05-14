@@ -233,19 +233,6 @@
 			}else{
 				$('#remind_message').css('display','none')
 			}
-			$("#remind_message").click(function(){
-				$.ajax({
-					url: '{% url "clear_message_num" %}',
-					type: 'GET',
-					data: $(this).serialize(),
-					cache: false,
-					success: function(data){
-						if(data['status']=='SUCCESS'){
-							$('#msg-num').text('')
-						}
-					}
-				});
-			})
 		</script>
 		<script src="{% static 'js/alert/notify.js' %}"></script>
 	</body>
