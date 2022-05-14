@@ -19,7 +19,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .import views
 
-
 urlpatterns = [
     path('login/', views.login, name='login'),
     path('login_for_modal/', views.login_for_modal, name='login_for_modal'),
