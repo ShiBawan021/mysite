@@ -136,7 +136,7 @@ def reply_card_del(request):
 
     return JsonResponse(data)
 
-def reply_url(request):
+def reply_card_url(request):
     blog_id = request.GET.get('from', '')
     return redirect(reverse('home') + 'blog/' + str(blog_id))
 
