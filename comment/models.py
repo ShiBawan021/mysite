@@ -48,7 +48,6 @@ class Comment(models.Model):
         reply_card.comment_time = self.comment_time
         reply_card.content_type = self.content_type
         reply_card.object_id = self.object_id
-        reply_card.url = self.content_object.get_url()
         if self.parent is None:
             reply_card.comment_type = '有新的评论'
             email = self.content_object.get_email()

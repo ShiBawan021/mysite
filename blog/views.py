@@ -3,7 +3,7 @@ from .models import Blog, BlogType
 from django.core.paginator import Paginator
 from django.conf import settings
 from django.db.models import Count
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from read_statistics.utils import read_statistics_once_read, get_orther_blog
 from .forms import EditForm, ContributionForm
 
@@ -115,9 +115,8 @@ def edit_blog(request):
                 blog.created_time = blog_time
                 blog._set_pk_val(blog_id)
                 blog.save()
-                edited_blog = Blog.objects.get(id=blog_id)
-                reverse_to = "http://localhost:8000/blog/"+str(edited_blog.id)
-                return redirect(reverse_to)
+
+                return redirect(reverse('home') + 'blog/' + str(blog_id))
         else:
             edit_form = EditForm()
 
@@ -143,9 +142,8 @@ def contribution(request):
             blog.content = text
             blog.author = user
             blog.save()
-            new_blog = Blog.objects.all().first()
-            reverse_to = "http://localhost:8000/blog/" + str(new_blog.id)
-            return redirect(reverse_to)
+            new_blog = Blog.objects.filter(author=user).first()
+            return redirect(reverse('home')+'blog/'+str(new_blog.id))
     else:
         contribution_form = ContributionForm()
 
