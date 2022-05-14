@@ -1,9 +1,8 @@
 import string
 import random
 import time
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib import auth
-from django.urls import reverse
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.core.mail import send_mail
