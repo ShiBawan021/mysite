@@ -35,19 +35,27 @@ div.contribution-btn p{
 	margin-bottom: 0;
 	text-align: center;
 }
-div.contribution-btn span{
+div.contribution-btn p span{
 	font-weight: bold;
 	font-size: 1.5em;
 }
+div.contribution-btn p{
+	color: darkgray;
+}
+div.contribution-btn:hover .tip{
+	color: #1f1f1f;
+}
 div.contribution-btn button{
 	width: 8em;
-	height: 3em;
-	background-color:#d9534f ;
-	border: none;
-	border-radius: 5px;
-	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-div.contribution-btn button:hover{
-	background-color: #d43f3a;
+div.contribution-btn button svg{
+	width: 1.4em;
+	height: 1.4em;
+	fill: white;
+	margin-left: 0.5em;
+	vertical-align: -4px;
 }
 
