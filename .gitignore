@@ -3,3 +3,4 @@ settings.py
 __pycache__/
 manage.py
 data.json
+static_collected/
