@@ -27,13 +27,12 @@ ALLOWED_HOSTS = ['*']
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-DATABASES_PASSWORD = os.environ.get('PASSWORD')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mysite_db',
         'USER': 'SanKxi',
-        'PASSWORD': DATABASES_PASSWORD,
+        'PASSWORD': '2093221073',
         'HOST': 'localhost',
         'PORT': '3306',
     }
