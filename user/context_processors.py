@@ -23,5 +23,5 @@ def remind_message(request):
             message_num.user = user
             message_num.save()
     else:
-        return render(request, '500.html', {'message': 'remind_message'})
+        return ""
 
