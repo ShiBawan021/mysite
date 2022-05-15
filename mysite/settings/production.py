@@ -27,7 +27,7 @@ ALLOWED_HOSTS = ['*']
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-DATABASES_PASSWORD = "2093221073"
+DATABASES_PASSWORD = os.environ.get('DATABASES_PASSWORD', 'default')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
