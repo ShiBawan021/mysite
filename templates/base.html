@@ -53,7 +53,7 @@
 								<li class="message-container">
 									<a href="{% url 'user_profile' %}?Info=true">
 										{% if user.is_authenticated %}
-											<span id="remind_message">{{remind_message.num}}</span>
+											<span id="remind_message"></span>
 										{% else %}
 											<span></span>
 										{% endif %}
@@ -228,7 +228,7 @@
 					}
 				});
 			});
-			if($('#remind_message').text()!='0'){
+			if($('#remind_message').text()!='0' && $('#remind_message').text()!=""){
 				$('#remind_message').css('display','block')
 			}else{
 				$('#remind_message').css('display','none')

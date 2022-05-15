@@ -45,7 +45,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = '1798615837@qq.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'default') #授权码EMAIL_SUBJECT_PREFIX
+EMAIL_HOST_PASSWORD = "vgfunaaqdutfbffg" #授权码EMAIL_SUBJECT_PREFIX
 EMAIL_HOST_PREFIX = '[ToyBox]'
 EMAIL_USE_TLS = True  #与SMTP服务器通信时，是否启动TLS链接(安全链接)
 

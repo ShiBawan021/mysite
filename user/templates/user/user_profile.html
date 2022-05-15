@@ -163,7 +163,7 @@
 				
 			</div>
 			<div class="col-xs-2 user-info-container">
-				<h2>{{ user.get_nickname }}</h2>
+				<h2>{% if user.has_nickname %}{{ user.get_nickname }}{% else %}{{user.username}}{% endif %}</a></h2>
 				<p>{{user.date_joined|date:'Y-m-d'}}</p>
 				<hr>
 				<p>投稿数 : {{ blog_count }}</p>

@@ -25,7 +25,7 @@ div.row{
 div.col-xs-10{
 	padding: 5em;
 	background-color: white;
-	overflow：hidden
+	padding-bottom: 3em;
 }
 div.col-xs-10 p{
 	text-align: center;

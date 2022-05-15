@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block title %}
-	{{ user.profile.nickname }} | ToyBox
+	{{ user.username }} | ToyBox
 {% endblock %}
 
 {% block content %}
@@ -25,8 +25,11 @@
 						<ul>
 							<div id="msg"></div>
 							<li class="change-nickname-container">
-								<p><span class="title">昵称</span><span id="change-nickname-text">{{ user.get_nickname }}</span></p>
-								<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+								<p>
+									<span class="title">昵称</span>
+									<span id="change-nickname-text">{% if user.has_nickname %}{{ user.get_nickname }}{% else %}<span></span>{% endif %}</span>
+								</p>
+								<button id="change-nickname-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 							  修改昵称
 								</button>
 								<div class="collapse" id="collapseExample">
@@ -311,6 +314,10 @@
 				}
 			});
 		});
+		if($("#change-nickname-text").text()==""){
+			$("#change-nickname-btn").text("添加昵称")
+			$("#change-nickname-text").text("您可以添加一个昵称")
+		}
 	</script>
 	<script src="{% static 'js/alert/notify.js' %}"></script>
 {% endblock %}

@@ -52,16 +52,22 @@ def register_form(request):
         # 创建用户
         user = User.objects.create_user(username, email, password)
         user.save()
+        message_num = MessageNum()
+        message_num.num = 0
+        message_num.user = user
+        message_num.save()
         # 清除seession
         del request.session['register_code']
         # 登录用户
         user = auth.authenticate(username=username, password=password)
         auth.login(request, user)
+
         data['status'] = 'SUCCESS'
     else:
         reg_form = RegForm(request.POST, request=request)
         data['msg'] = reg_form.errors
         data['status'] = 'ERROR'
+
 
     return JsonResponse(data)
 

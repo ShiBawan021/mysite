@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block title %}
-	我的网站|登录
+	注册 | 登录
 {% endblock %}
 
 {% block nav %}{% endblock %}
@@ -134,6 +134,7 @@
 				$(this).attr("value", time + 's');
 			}, 1000);
 		});
+		
 		$("#login-form").submit(function(event){
 			event.preventDefault();
 			$.ajax({
@@ -176,6 +177,7 @@
 							url=url.substring(aa+1);
 							window.location.href = url
 						}
+						console.log(data['user'])
 					}else{
 						if(data['msg']['username']=='400'){
 							$('.register-input #error-msg').eq(0).text('用户已存在')
