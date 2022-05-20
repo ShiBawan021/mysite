@@ -124,7 +124,7 @@ div.collect:hover{
 	animation-name: collect-animation;
 	animation-duration: 0.5s;
 }
-div.like .active, div.like-comment .active, div.hate-comment .active, div.like-comment-reply .active. div.collect .active{
+div.like .active, div.like-comment .active, div.hate-comment .active, div.like-comment-reply .active{
 	fill: #337AB7;
 	animation-name: like-animation;
 	animation-duration: 0s;
